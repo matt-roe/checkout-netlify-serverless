@@ -43,11 +43,11 @@
     </footer>
 
     <template id="product">
-      <div id=datepicker></div>
       <div class="product">
         <img src="" alt="" />
         <h2>name</h2>
         <p class="description">description</p>
+        <input type="text" id="datepicker"/>
         <p class="price">price</p>
         <form action="/.netlify/functions/create-checkout" method="post">
           <label for="quantity">Quantity</label>
