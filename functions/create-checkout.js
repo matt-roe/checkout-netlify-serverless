@@ -29,9 +29,7 @@ exports.handler = async (event) => {
   const session = await stripe.checkout.sessions.create({
     mode: 'payment',
     payment_method_types: ['card'],
-    billing_address_collection: 'auto',
-
-
+    billing_address_collection: 'required',
     /*
      * This env var is set by Netlify and inserts the live site URL. If you want
      * to use a different URL, you can hard-code it here or check out the
