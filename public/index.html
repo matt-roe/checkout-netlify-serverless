@@ -43,6 +43,7 @@
     </footer>
 
     <template id="product">
+      <div id=datepicker></div>
       <div class="product">
         <img src="" alt="" />
         <h2>name</h2>
@@ -63,6 +64,21 @@
         </form>
       </div>
     </template>
+
+    <script src="https://cdn.jsdelivr.net/npm/litepicker@2.0.11/dist/litepicker.js"></script>
+    <script>
+new Litepicker({
+  element: document.getElementById('datepicker'),
+  singleMode: false,
+  tooltipText: {
+    one: 'night',
+    other: 'nights'
+  },
+  tooltipNumber: (totalDays) => {
+    return totalDays - 1;
+  }
+})
+    </script>
 
     <script src="https://js.stripe.com/v3/"></script>
     <script>
