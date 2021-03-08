@@ -17,6 +17,7 @@
         This demo is in test mode. That means you can check out using any of the
         <a href="https://stripe.com/docs/testing#cards">test card numbers</a>.
       </p>
+      <input type="text" id="datepicker"/>
       <section class="products"></section>
     </main>
 
@@ -49,7 +50,7 @@
         <p class="description">description</p>
         <p class="price">price</p>
         <form action="/.netlify/functions/create-checkout" method="post">
-          <input type="text" id="datepicker"/>
+          
           <label for="quantity">Quantity</label>
           <input
             type="number"
