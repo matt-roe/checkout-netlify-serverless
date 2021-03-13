@@ -74,12 +74,13 @@ const allowedDates = [
 ];
 
 var getDaysArray = function(start, end) {
-  console.log(start + " and " + end);
-    for(var arr=[],dt=new Date(start); dt<=end; dt.setDate(dt.getDate()+1)){
-        arr.push(new Date(dt));
-    }
-    console.log(arr);
-    return arr;
+  var startdt=new Date(start);
+  var enddt=new Date(end);
+  for(var arr=[],dt = startdt; dt<=enddt; dt.setDate(dt.getDate()+1)){
+    arr.push(new Date(dt));
+  }
+  console.log(arr);
+  return arr;
   };
 new Litepicker({
   element: document.getElementById('datepicker'),
