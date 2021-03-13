@@ -12,7 +12,7 @@
     </header>
 
     <main>
-      <h1>Buy Our Products!</h1>
+      <h1>Breezy Book</h1>
       <p>
         This demo is in test mode. That means you can check out using any of the
         <a href="https://stripe.com/docs/testing#cards">test card numbers</a>.
@@ -61,7 +61,7 @@
             max="10"
           />
           <input type="hidden" name="sku" value="" />
-          <button type="submit">Buy Now</button>
+          <button type="submit">Book Now</button>
         </form>
       </div>
     </template>
@@ -74,6 +74,7 @@ const allowedDates = [
 ];
 
 var getDaysArray = function(start, end) {
+  console.log(start + " and " + end);
     for(var arr=[],dt=new Date(start); dt<=end; dt.setDate(dt.getDate()+1)){
         arr.push(new Date(dt));
     }
@@ -98,9 +99,8 @@ new Litepicker({
   picker.on('selected', (date1, date2) => {
     // some action
     console.log(date1.format('YYYY-MM-DD') + " - " + date2.format('YYYY-MM-DD'));
-    let daysArr = getDaysArray(date1, date2);
+    let daysArr = getDaysArray(date1.format('YYYY-MM-DD'), date2.format('YYYY-MM-DD'));
     console.log(daysArr);
-    console.log(totalDays);
   });
 }
 })
