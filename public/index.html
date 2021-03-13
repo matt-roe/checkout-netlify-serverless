@@ -76,11 +76,12 @@ const allowedDates = [
 new Litepicker({
   element: document.getElementById('datepicker'),
   singleMode: false,
+  disallowLockDaysInRange: true,
   tooltipText: {
     one: 'night',
     other: 'nights'
   },
-  lockDaysFilter: (allowedDates),
+  lockDays: (allowedDates),
   tooltipNumber: (totalDays) => {
     return totalDays - 1;
   }
