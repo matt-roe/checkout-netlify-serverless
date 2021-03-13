@@ -78,6 +78,7 @@ var getDaysArray = function(start, end) {
     for(var arr=[],dt=new Date(start); dt<=end; dt.setDate(dt.getDate()+1)){
         arr.push(new Date(dt));
     }
+    console.log(arr);
     return arr;
   };
 new Litepicker({
@@ -99,8 +100,8 @@ new Litepicker({
   picker.on('selected', (date1, date2) => {
     // some action
     console.log(date1.format('YYYY-MM-DD') + " - " + date2.format('YYYY-MM-DD'));
-    let daysArr = getDaysArray(date1.format('YYYY/MM/DD'), date2.format('YYYY/MM/DD'));
-    console.log(daysArr);
+    var selectedArr = getDaysArray(date1.format('YYYY/MM/DD'), date2.format('YYYY/MM/DD'));
+    console.log(selectedArr);
   });
 }
 })
