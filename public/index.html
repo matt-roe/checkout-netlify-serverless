@@ -104,7 +104,7 @@
         <p class="description">description</p>
         <p class="price">price</p>
         <input type="hidden" name="sku" value="" />
-        <input type="button" name="selectButton" value="Select Room" onclick="handleSelect()"/>
+        <input type="button" name="selectButton" value="Select Room" onclick="handleSelect(container.querySelector('[name=sku]').value)"/>
       </div>
     </template>
 
@@ -289,9 +289,8 @@ var getDaysArray = function(start, end) {
         }).format((amount / 100).toFixed(2));
       }
 
-      function handleSelect(event) {
-        let form = new FormData(event.target);
-        document.getElementById("selected_sku").value = form.get('sku');
+      function handleSelect(sku) {
+        document.getElementById("selected_sku").value = sku;
       };
 
       async function handleSubmit(event) {
