@@ -91,7 +91,7 @@ var client = new HttpClient();
 var availArr = client.get('https://oldsheepranchinn.api.stdlib.com/availability@dev/', function(response) {
     return JSON.parse(response);
 });
-console.log(availArr.gcal.freebusy);
+console.log(availArr);
 
 var getDaysArray = function(start, end) {
   var startdt=new Date(start);
@@ -122,6 +122,7 @@ new Litepicker({
     console.log(date1.format('YYYY-MM-DD') + " - " + date2.format('YYYY-MM-DD'));
     var selectedArr = getDaysArray(date1.format('YYYY/MM/DD'), date2.format('YYYY/MM/DD'));
     console.log(selectedArr);
+    document.getElementById("quantity").value = selectedArr.length;
   });
 }
 })

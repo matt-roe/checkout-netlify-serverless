@@ -6,13 +6,5 @@
     "image": "https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=600&h=600&q=80",
     "amount": 5000,
     "currency": "USD"
-  },
-  {
-    "sku": "DEMO002",
-    "name": "The Bar",
-    "description": "Apartment",
-    "image": "https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=600&h=600&q=80",
-    "amount": 8000,
-    "currency": "USD"
   }
 ]
