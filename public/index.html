@@ -204,7 +204,8 @@ window.onload = function(e){
   autoRefresh: true,
   maxDays: 30,
   minDate: new Date().addDays(3),
-  minDate: new Date().addDays(270),
+  maxDate: new Date().addDays(270),
+  dropdowns: {"minYear":new Date().getFullYear(),"maxYear":new Date().getFullYear() + 1,"months":true,"years":false},
   disallowLockDaysInRange: true,
   tooltipText: {
     one: 'night',
