@@ -350,7 +350,7 @@ var getDaysArray = function(start, end) {
             product.amount,
             product.currency
           );
-          container.querySelector('[name=selectButton]').onClick = '="handleSelect(' + product.sku + ')"';
+          container.querySelector('[name=selectButton]').setAttribute( "onClick", 'javascript: handleSelect(' + product.sku + ');' );
 
           const img = container.querySelector('img');
           img.src = product.image;
