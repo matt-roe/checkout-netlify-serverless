@@ -19,7 +19,7 @@
       </p>
 
 
-      <form id="bookWizForm" action="/.netlify/functions/create-checkout" method="post">
+      <form id="bookWizForm" action="/.netlify/functions/create-checkout" onsubmit="handleSubmit()" method="post">
 
         <h1>Register:</h1>
         
@@ -31,7 +31,7 @@
         
         <div class="tab">Dates:
           <input type="text" id="datepicker"/>
-          <label for="quantity">Quantity</label>
+          <label for="quantity">Nights</label>
           <input
             type="number"
             id="quantity"
@@ -48,9 +48,10 @@
           <p>By clicking next you accept these terms.</p>
         </div>
         
-        <div class="tab">Login Info:
-          <p><input placeholder="Username..." oninput="this.className = ''"></p>
-          <p><input placeholder="Password..." oninput="this.className = ''"></p>
+        <div class="tab">Confirm:
+          <p id="roomNameDisplay"></p>
+          <p id="roomPriceDisplay"></p>
+          <p id="quantityNightsDisplay"></p>
         </div>
         
         <div style="overflow:auto;">
@@ -358,7 +359,7 @@ var getDaysArray = function(start, end) {
           
           products.appendChild(container);
         });
-        document.getElementById("bookWizForm").addEventListener('submit', handleSubmit);
+        // document.getElementById("bookWizForm").addEventListener('submit', handleSubmit);
       }
 
       loadProducts();
