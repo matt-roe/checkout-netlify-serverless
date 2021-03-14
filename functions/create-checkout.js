@@ -20,6 +20,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
 const inventory = require('./data/products.json');
 
 exports.handler = async (event) => {
+  console.log(event.body);
   const { sku, quantity, description } = JSON.parse(event.body);
   const product = inventory.find((p) => p.sku === sku);
 
