@@ -356,10 +356,12 @@ var getDaysArray = function(start, end) {
           img.src = product.image;
           img.alt = product.name;
 
-          const button = container.querySelector('button');
+          const button = container.querySelector('[name=selectButton]');
           button.addEventListener('select', handleSelect);
           
           products.appendChild(container);
+
+          
         });
         document.getElementById("bookWizForm").addEventListener('submit', handleSubmit);
       }
