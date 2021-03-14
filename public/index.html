@@ -86,6 +86,11 @@ var HttpClient = function() {
         anHttpRequest.send( null );
     }
 }
+Date.prototype.addDays = function(days) {
+    var date = new Date(this.valueOf());
+    date.setDate(date.getDate() + days);
+    return date;
+}
 
 var client = new HttpClient();
 var availArr = client.get('https://oldsheepranchinn.api.stdlib.com/availability@dev/', function(response) {
