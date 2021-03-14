@@ -75,35 +75,38 @@ var bookedDates = [
 ];
 
 window.onload = function(e){ 
-  var bookedDatesRes = fetchAvailArr().json;
-  console.log(bookedDatesRes);
-  bookedDatesRes = bookedDatesRes.gcal.response.items;
-  console.log(bookedDatesRes);
-  bookedDatesRes.forEach(addBookedDates);
+  fetchBookedDates().then(function(fetchBookedDatesRes) {
+  console.log(fetchBookedDatesRes);
+  unAvailArr = fetchBookedDatesRes.gcal.response.items;
+  console.log(unAvailArr);
+  unAvailArr.forEach(addBookedDates);
+}, function(error) {
+  console.log(error)
+})
 };
 
+async function fetchBookedDates() {
+  const bookedDatesRes = await fetch('https://oldsheepranchinn.api.stdlib.com/availability@dev/');
+
+  if (!bookedDatesRes.ok) {
+    const message = `An error has occured: ${bookedDatesRes.status}`;
+    throw new Error(message);
+  }
+
+  var unAvailArr = await bookedDatesRes.json();
+
+  return unAvailArr;
+}
+
+fetchBookedDates().catch(error => {
+  error.message; // 'An error has occurred: 404'
+});
 
 function addBookedDates(event) {
   console.log(event.start.date);
   console.log(event.end.date);
   // document.write(bookedDates);
 };
-
-async function fetchAvailArr() {
-  const availRes = await fetch('https://oldsheepranchinn.api.stdlib.com/availability@dev/');
-
-  if (!availRes.ok) {
-    const message = `An error has occured: ${availRes.status}`;
-    throw new Error(message);
-  }
-
-  const availArr = await availRes.json();
-  return availArr;
-}
-
-fetchAvailArr().catch(error => {
-  error.message; // 'An error has occurred: 404'
-});
 
 Date.prototype.addDays = function(days) {
     var date = new Date(this.valueOf());
