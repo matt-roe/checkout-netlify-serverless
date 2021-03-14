@@ -69,34 +69,32 @@
     <script src="https://cdn.jsdelivr.net/npm/litepicker@2.0.11/dist/litepicker.js"></script>
     <script>
 
-const allowedDates = [
+var bookedDates = [
   '2021-02-01', '2021-02-05', '2021-02-08', 
   '2021-02-12', '2021-02-15', '2021-02-19',
 ];
 
-var HttpClient = function() {
-    this.get = function(aUrl, aCallback) {
-        var anHttpRequest = new XMLHttpRequest();
-        anHttpRequest.onreadystatechange = function() { 
-            if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
-                aCallback(anHttpRequest.responseText);
-        }
+async function fetchAvailArr() {
+  const response = await fetch('https://oldsheepranchinn.api.stdlib.com/availability@dev/');
 
-        anHttpRequest.open( "GET", aUrl, true );            
-        anHttpRequest.send( null );
-    }
+  if (!response.ok) {
+    const message = `An error has occured: ${response.status}`;
+    throw new Error(message);
+  }
+
+  const availArr = await response.json();
+  return availArr;
 }
+
+fetchAvailArr().catch(error => {
+  error.message; // 'An error has occurred: 404'
+});
+
 Date.prototype.addDays = function(days) {
     var date = new Date(this.valueOf());
     date.setDate(date.getDate() + days);
     return date;
 }
-
-var client = new HttpClient();
-var availArr = client.get('https://oldsheepranchinn.api.stdlib.com/availability@dev/', function(response) {
-    return JSON.parse(response);
-});
-console.log(availArr);
 
 var getDaysArray = function(start, end) {
   var startdt=new Date(start);
@@ -116,16 +114,20 @@ new Litepicker({
     one: 'night',
     other: 'nights'
   },
-  lockDays: (allowedDates),
+  lockDays: (bookedDates),
   tooltipNumber: (totalDays) => {
     return totalDays - 1;
   },
   setup: (picker) => {
+  picker.on('before:show', (el) => {
+    var bookedDates = fetchAvailArr();
+    console.log(bookedDates);
+    document.write(bookedDates);
+  });
   picker.on('error:range', () => {
     console.log("A date in the range is already booked.")
   });
   picker.on('selected', (date1, date2) => {
-    // some action
     console.log(date1.format('YYYY-MM-DD') + " - " + date2.format('YYYY-MM-DD'));
     var selectedArr = getDaysArray(date1.format('YYYY/MM/DD'), date2.format('YYYY/MM/DD'));
     console.log(selectedArr);
