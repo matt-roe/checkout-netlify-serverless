@@ -104,7 +104,7 @@
         <p class="description">description</p>
         <p class="price">price</p>
         <input type="hidden" name="sku" value="" />
-        <input type="button" name="selectButton" />
+        <input type="button" name="selectButton" value="Select Room" onclick="handleSelect()"/>
       </div>
     </template>
 
@@ -355,13 +355,8 @@ var getDaysArray = function(start, end) {
           const img = container.querySelector('img');
           img.src = product.image;
           img.alt = product.name;
-
-          const button = container.querySelector('[name=selectButton]');
-          button.addEventListener('select', handleSelect);
           
           products.appendChild(container);
-
-          
         });
         document.getElementById("bookWizForm").addEventListener('submit', handleSubmit);
       }
