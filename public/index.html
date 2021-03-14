@@ -194,6 +194,37 @@ window.onload = function(e){
   fetchBookedDates().then(function(fetchBookedDatesRes) {
   unAvailArr = fetchBookedDatesRes.gcal.response.items;
   unAvailArr.forEach(addBookedDates);
+
+
+  new Litepicker({
+  element: document.getElementById('datepicker'),
+  plugins: ['mobilefriendly'],
+  singleMode: false,
+  delimiter: " to ",
+  minDate: new Date().addDays(3),
+  disallowLockDaysInRange: true,
+  tooltipText: {
+    one: 'night',
+    other: 'nights'
+  },
+  lockDays: (bookedDates),
+  tooltipNumber: (totalDays) => {
+    return totalDays - 1;
+  },
+  setup: (picker) => {
+  picker.on('error:range', () => {
+    console.log("A date in the range is already booked.")
+  });
+  picker.on('selected', (date1, date2) => {
+    console.log(date1.format('YYYY-MM-DD') + " - " + date2.format('YYYY-MM-DD'));
+    var selectedArr = getDaysArray(date1.format('YYYY-MM-DD'), date2.format('YYYY-MM-DD'));
+    console.log(selectedArr);
+    document.getElementById("quantity").value = selectedArr.length - 1;
+  });
+}
+});
+
+
 }, function(error) {
   console.log(error)
 })
@@ -249,34 +280,6 @@ var getDaysArray = function(start, end) {
   }
   return arr;
   };
-
-new Litepicker({
-  element: document.getElementById('datepicker'),
-  plugins: ['mobilefriendly'],
-  singleMode: false,
-  delimiter: " to ",
-  minDate: new Date().addDays(3),
-  disallowLockDaysInRange: true,
-  tooltipText: {
-    one: 'night',
-    other: 'nights'
-  },
-  lockDays: (bookedDates),
-  tooltipNumber: (totalDays) => {
-    return totalDays - 1;
-  },
-  setup: (picker) => {
-  picker.on('error:range', () => {
-    console.log("A date in the range is already booked.")
-  });
-  picker.on('selected', (date1, date2) => {
-    console.log(date1.format('YYYY-MM-DD') + " - " + date2.format('YYYY-MM-DD'));
-    var selectedArr = getDaysArray(date1.format('YYYY-MM-DD'), date2.format('YYYY-MM-DD'));
-    console.log(selectedArr);
-    document.getElementById("quantity").value = selectedArr.length - 1;
-  });
-}
-});
     </script>
 
     <script src="https://js.stripe.com/v3/"></script>
