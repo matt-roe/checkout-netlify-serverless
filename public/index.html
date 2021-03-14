@@ -104,6 +104,8 @@ var getDaysArray = function(start, end) {
 new Litepicker({
   element: document.getElementById('datepicker'),
   singleMode: false,
+  delimiter: " to ",
+  minDate: new Date().addDays(3),
   disallowLockDaysInRange: true,
   tooltipText: {
     one: 'night',
@@ -122,7 +124,7 @@ new Litepicker({
     console.log(date1.format('YYYY-MM-DD') + " - " + date2.format('YYYY-MM-DD'));
     var selectedArr = getDaysArray(date1.format('YYYY/MM/DD'), date2.format('YYYY/MM/DD'));
     console.log(selectedArr);
-    document.getElementById("quantity").value = selectedArr.length;
+    document.getElementById("quantity").value = selectedArr.length - 1;
   });
 }
 })
