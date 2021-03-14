@@ -103,8 +103,7 @@
         <h2>name</h2>
         <p class="description">description</p>
         <p class="price">price</p>
-        <input type="hidden" name="sku" value="" />
-        <input type="button" name="selectButton" value="Select Room" onclick="handleSelect(container.querySelector('[name=sku]').value)"/>
+        <input type="button" name="selectButton" value="Select Room" onclick=""/>
       </div>
     </template>
 
@@ -349,7 +348,7 @@ var getDaysArray = function(start, end) {
             product.amount,
             product.currency
           );
-          container.querySelector('[name=sku]').value = product.sku;
+          container.querySelector('[name=selectButton]').onClick = "handleSelect(" + product.sku + ")";
 
           const img = container.querySelector('img');
           img.src = product.image;
