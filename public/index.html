@@ -145,9 +145,6 @@ new Litepicker({
     return totalDays - 1;
   },
   setup: (picker) => {
-  picker.on('before:render', (ui) => {
-    console.log(bookedDates);
-  });
   picker.on('error:range', () => {
     console.log("A date in the range is already booked.")
   });
