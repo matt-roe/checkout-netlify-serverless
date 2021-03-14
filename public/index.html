@@ -289,7 +289,9 @@ var getDaysArray = function(start, end) {
       }
 
       function handleSelect(sku) {
+        console.log(sku);
         document.getElementById("selected_sku").value = sku;
+        console.log(document.getElementById("selected_sku").value);
       };
 
       async function handleSubmit(event) {
