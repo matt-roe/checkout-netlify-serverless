@@ -75,14 +75,14 @@ var bookedDates = [
 ];
 
 async function fetchAvailArr() {
-  const response = await fetch('https://oldsheepranchinn.api.stdlib.com/availability@dev/');
+  const availRes = await fetch('https://oldsheepranchinn.api.stdlib.com/availability@dev/');
 
-  if (!response.ok) {
-    const message = `An error has occured: ${response.status}`;
+  if (!availRes.ok) {
+    const message = `An error has occured: ${availRes.status}`;
     throw new Error(message);
   }
 
-  const availArr = await response.json();
+  const availArr = await availRes.json();
   return availArr;
 }
 
