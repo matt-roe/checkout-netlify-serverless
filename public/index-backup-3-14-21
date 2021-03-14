@@ -19,27 +19,17 @@
       </p>
 
 
-      <form id="bookWizForm" action="/.netlify/functions/create-checkout" method="post">
+      <form id="bookWiz" action="/.netlify/functions/create-checkout" method="post">
 
         <h1>Register:</h1>
         
         <!-- One "tab" for each step in the form: -->
         <div class="tab">Room:
           <section class="products"></section>
-          <input type="hidden" id="selected_sku" value="" />
         </div>
         
         <div class="tab">Dates:
           <input type="text" id="datepicker"/>
-          <label for="quantity">Quantity</label>
-          <input
-            type="number"
-            id="quantity"
-            name="quantity"
-            value="1"
-            min="1"
-            max="10"
-          />
         </div>
         
         <div class="tab">Terms:
@@ -103,8 +93,20 @@
         <h2>name</h2>
         <p class="description">description</p>
         <p class="price">price</p>
-        <input type="hidden" name="sku" value="" />
-        <input type="button" name="selectButton" />
+        <form action="/.netlify/functions/create-checkout" method="post">
+          
+          <label for="quantity">Quantity</label>
+          <input
+            type="number"
+            id="quantity"
+            name="quantity"
+            value="1"
+            min="1"
+            max="10"
+          />
+          <input type="hidden" name="sku" value="" />
+          <button type="submit">Book Now</button>
+        </form>
       </div>
     </template>
 
@@ -289,11 +291,6 @@ var getDaysArray = function(start, end) {
         }).format((amount / 100).toFixed(2));
       }
 
-      function handleSelect(event) {
-        let form = new FormData(event.target);
-        document.getElementById("selected_sku").value = form.get('sku');
-      };
-
       async function handleSubmit(event) {
         event.preventDefault();
         document
@@ -302,7 +299,7 @@ var getDaysArray = function(start, end) {
 
         const form = new FormData(event.target);
         const data = {
-          sku: form.get('selected_sku'),
+          sku: form.get('sku'),
           quantity: Number(form.get('quantity')),
         };
 
@@ -325,7 +322,7 @@ var getDaysArray = function(start, end) {
             .forEach((button) => (button.disabled = false));
           console.error(error);
         }
-      };
+      }
 
       async function loadProducts() {
         if (!'content' in document.createElement('template')) {
@@ -356,12 +353,11 @@ var getDaysArray = function(start, end) {
           img.src = product.image;
           img.alt = product.name;
 
-          const button = container.querySelector('button');
-          button.addEventListener('select', handleSelect);
-          
+          const form = container.querySelector('form');
+          form.addEventListener('submit', handleSubmit);
+
           products.appendChild(container);
         });
-        document.getElementById("bookWizForm").addEventListener('submit', handleSubmit);
       }
 
       loadProducts();
