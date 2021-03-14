@@ -20,9 +20,6 @@
 
 
       <form id="bookWizForm" action="/.netlify/functions/create-checkout" onsubmit="handleSubmit()" method="post">
-
-        <h1>Register:</h1>
-        
         <!-- One "tab" for each step in the form: -->
         <div class="tab">Room:
           <section class="products"></section>
@@ -145,7 +142,7 @@ function nextPrev(n) {
   // if you have reached the end of the form... :
   if (currentTab >= x.length) {
     //...the form gets submitted:
-    document.getElementById("regForm").submit();
+    document.getElementById("bookWizForm").submit();
     return false;
   }
   // Otherwise, display the correct tab:
