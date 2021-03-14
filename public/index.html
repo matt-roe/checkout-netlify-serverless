@@ -73,9 +73,7 @@ var bookedDates = [];
 
 window.onload = function(e){ 
   fetchBookedDates().then(function(fetchBookedDatesRes) {
-  console.log(fetchBookedDatesRes);
   unAvailArr = fetchBookedDatesRes.gcal.response.items;
-  console.log(unAvailArr);
   unAvailArr.forEach(addBookedDates);
 }, function(error) {
   console.log(error)
@@ -104,7 +102,7 @@ function addBookedDates(event) {
   console.log(arrayBooked);
   arrayBooked.forEach((day) => {
   console.log(day);
-  bookedDates.push(day);
+  bookedDates.push(day.format('YYYY-MM-DD'));
   });
   
 };
