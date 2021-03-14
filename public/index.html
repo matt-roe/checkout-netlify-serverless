@@ -301,8 +301,8 @@ var getDaysArray = function(start, end) {
         const form = new FormData(event.target);
         console.log(form);
         const data = {
-          sku: form.get('selected_sku'),
-          quantity: Number(form.get('quantity')),
+          sku: document.getElementById("selected_sku").value,
+          quantity: Number(document.getElementById("quantity").value),
           description: requestedDates.toString(),
         };
         console.log(data);
