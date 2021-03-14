@@ -68,10 +68,30 @@
 
     <script src="https://cdn.jsdelivr.net/npm/litepicker@2.0.11/dist/litepicker.js"></script>
     <script>
+
 const allowedDates = [
   '2021-02-01', '2021-02-05', '2021-02-08', 
   '2021-02-12', '2021-02-15', '2021-02-19',
 ];
+
+var HttpClient = function() {
+    this.get = function(aUrl, aCallback) {
+        var anHttpRequest = new XMLHttpRequest();
+        anHttpRequest.onreadystatechange = function() { 
+            if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
+                aCallback(anHttpRequest.responseText);
+        }
+
+        anHttpRequest.open( "GET", aUrl, true );            
+        anHttpRequest.send( null );
+    }
+}
+
+var client = new HttpClient();
+availArr = client.get('https://oldsheepranchinn.api.stdlib.com/availability@dev/', function(response) {
+    return JSON.parse(response);
+});
+console.log(availArr.gcal.freebusy);
 
 var getDaysArray = function(start, end) {
   var startdt=new Date(start);
@@ -79,7 +99,6 @@ var getDaysArray = function(start, end) {
   for(var arr=[],dt = startdt; dt<=enddt; dt.setDate(dt.getDate()+1)){
     arr.push(new Date(dt));
   }
-  console.log(arr);
   return arr;
   };
 new Litepicker({
