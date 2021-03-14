@@ -88,7 +88,7 @@ var HttpClient = function() {
 }
 
 var client = new HttpClient();
-availArr = client.get('https://oldsheepranchinn.api.stdlib.com/availability@dev/', function(response) {
+var availArr = client.get('https://oldsheepranchinn.api.stdlib.com/availability@dev/', function(response) {
     return JSON.parse(response);
 });
 console.log(availArr.gcal.freebusy);
