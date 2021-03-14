@@ -69,10 +69,7 @@
     <script src="https://cdn.jsdelivr.net/npm/litepicker@2.0.11/dist/litepicker.js"></script>
     <script>
 
-var bookedDates = [
-  '2021-02-01', '2021-02-05', '2021-02-08', 
-  '2021-02-12', '2021-02-15', '2021-02-19',
-];
+var bookedDates = [];
 
 window.onload = function(e){ 
   fetchBookedDates().then(function(fetchBookedDatesRes) {
@@ -103,9 +100,13 @@ fetchBookedDates().catch(error => {
 });
 
 function addBookedDates(event) {
-  console.log(event.start.date);
-  console.log(event.end.date);
-  // document.write(bookedDates);
+  let arrayBooked = getDaysArray(event.start.date,event.end.date);
+  console.log(arrayBooked);
+  arrayBooked.forEach((day) => {
+  console.log(day);
+  bookedDates.push(day);
+  });
+  
 };
 
 Date.prototype.addDays = function(days) {
@@ -122,6 +123,7 @@ var getDaysArray = function(start, end) {
   }
   return arr;
   };
+
 new Litepicker({
   element: document.getElementById('datepicker'),
   singleMode: false,
@@ -142,7 +144,7 @@ new Litepicker({
   });
   picker.on('selected', (date1, date2) => {
     console.log(date1.format('YYYY-MM-DD') + " - " + date2.format('YYYY-MM-DD'));
-    var selectedArr = getDaysArray(date1.format('YYYY/MM/DD'), date2.format('YYYY/MM/DD'));
+    var selectedArr = getDaysArray(date1.format('YYYY-MM-DD'), date2.format('YYYY-MM-DD'));
     console.log(selectedArr);
     document.getElementById("quantity").value = selectedArr.length - 1;
   });
