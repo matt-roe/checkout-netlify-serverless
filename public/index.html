@@ -74,6 +74,12 @@ var bookedDates = [
   '2021-02-12', '2021-02-15', '2021-02-19',
 ];
 
+function addBookedDates(event) {
+  console.log(event.start.date);
+  console.log(event.end.date);
+  // document.write(bookedDates);
+};
+
 async function fetchAvailArr() {
   const availRes = await fetch('https://oldsheepranchinn.api.stdlib.com/availability@dev/');
 
@@ -124,12 +130,7 @@ new Litepicker({
     console.log(bookedDatesRes);
     bookedDatesRes = bookedDatesRes.gcal.response.items;
     console.log(bookedDatesRes);
-    bookedDates = [];
-    forEach(event in bookedDatesRes) {
-      console.log(event.start.date);
-      console.log(event.end.date);
-    };
-    // document.write(bookedDates);
+    bookedDatesRes.forEach(addBookedDates);
   });
   picker.on('error:range', () => {
     console.log("A date in the range is already booked.")
