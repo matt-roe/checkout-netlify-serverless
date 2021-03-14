@@ -19,7 +19,7 @@
       </p>
 
 
-      <form id="bookWiz" action="">
+      <form id="bookWiz" action="/.netlify/functions/create-checkout" method="post">
 
         <h1>Register:</h1>
         
@@ -201,7 +201,10 @@ window.onload = function(e){
   plugins: ['mobilefriendly'],
   singleMode: false,
   delimiter: " to ",
+  autoRefresh: true,
   minDate: new Date().addDays(3),
+  minDate: new Date().addDays(270),
+  dropdowns: {"minYear":new Date().getFullYear(),"maxYear":new Date().getFullYear() + 1,"months":true,"years":false},
   disallowLockDaysInRange: true,
   tooltipText: {
     one: 'night',
@@ -252,9 +255,7 @@ function addBookedDates(event) {
   //arrayBooked.forEach((day) => {
   //day = dateToYMD(day);
   let eventStartEndArr = [event.start.date,event.end.date]
-  console.log(eventStartEndArr);
   bookedDates.push(eventStartEndArr);
-  console.log(bookedDates);
   //});
   
 };
