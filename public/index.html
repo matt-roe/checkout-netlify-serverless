@@ -101,10 +101,22 @@ function addBookedDates(event) {
   let arrayBooked = getDaysArray(event.start.date,event.end.date);
   console.log(arrayBooked);
   arrayBooked.forEach((day) => {
+  day = day.toISOString().slice(0, 10);
   console.log(day);
-  bookedDates.push(day.toISOString().slice(0, 10));
+  day = day.toISOString().toISOString().split('T')[0];
+  console.log(day);
+  day = dateToYMD(day);
+  console.log(day);
+  // bookedDates.push(day);
   });
   
+};
+
+function dateToYMD(date) {
+    var d = date.getDate();
+    var m = date.getMonth() + 1; //Month from 0 to 11
+    var y = date.getFullYear();
+    return '' + y + '-' + (m<=9 ? '0' + m : m) + '-' + (d <= 9 ? '0' + d : d);
 };
 
 Date.prototype.addDays = function(days) {
@@ -137,6 +149,9 @@ new Litepicker({
     return totalDays - 1;
   },
   setup: (picker) => {
+  picker.on('before:render', (ui) => {
+    console.log(bookedDates);
+  });
   picker.on('error:range', () => {
     console.log("A date in the range is already booked.")
   });
