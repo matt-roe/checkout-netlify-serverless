@@ -307,7 +307,7 @@ var getDaysArray = function(start, end) {
         const data = {
           sku: form.get('selected_sku'),
           quantity: Number(form.get('quantity')),
-          description: requestedDates.toString()
+          description: requestedDates.toString(),
         };
         console.log(data);
         const response = await fetch('/.netlify/functions/create-checkout', {
