@@ -102,7 +102,7 @@ function addBookedDates(event) {
   console.log(arrayBooked);
   arrayBooked.forEach((day) => {
   console.log(day);
-  bookedDates.push(day.format('YYYY-MM-DD'));
+  bookedDates.push(day.toISOString().slice(0, 10));
   });
   
 };
