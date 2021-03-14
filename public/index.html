@@ -216,9 +216,7 @@ window.onload = function(e){
     console.log("A date in the range is already booked.")
   });
   picker.on('selected', (date1, date2) => {
-    console.log(date1.format('YYYY-MM-DD') + " - " + date2.format('YYYY-MM-DD'));
     var selectedArr = getDaysArray(date1.format('YYYY-MM-DD'), date2.format('YYYY-MM-DD'));
-    console.log(selectedArr);
     requestedDates = selectedArr;
     document.getElementById("quantity").value = selectedArr.length - 1;
   });
@@ -291,9 +289,7 @@ var getDaysArray = function(start, end) {
       }
 
       function handleSelect(sku) {
-        console.log(sku);
         document.getElementById("selected_sku").value = sku;
-        console.log(document.getElementById("selected_sku").value);
       };
 
       async function handleSubmit(event) {
