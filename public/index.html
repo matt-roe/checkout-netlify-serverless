@@ -35,7 +35,7 @@
             name="quantity"
             value="1"
             min="1"
-            max="10"
+            disabled
           />
         </div>
         
@@ -108,6 +108,9 @@
     <script src="https://cdn.jsdelivr.net/npm/litepicker@2.0.11/dist/litepicker.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/litepicker@2.0.11/dist/plugins/mobilefriendly.js"></script>
     <script>
+
+var requestedDates = [];
+
 var currentTab = 0; // Current tab is set to be the first tab (0)
 showTab(currentTab); // Display the current tab
 
@@ -216,6 +219,7 @@ window.onload = function(e){
     console.log(date1.format('YYYY-MM-DD') + " - " + date2.format('YYYY-MM-DD'));
     var selectedArr = getDaysArray(date1.format('YYYY-MM-DD'), date2.format('YYYY-MM-DD'));
     console.log(selectedArr);
+    requestedDates = selectedArr;
     document.getElementById("quantity").value = selectedArr.length - 1;
   });
 }
@@ -297,13 +301,15 @@ var getDaysArray = function(start, end) {
         document
           .querySelectorAll('button')
           .forEach((button) => (button.disabled = true));
-
+        console.log(event.target);
         const form = new FormData(event.target);
+        console.log(form);
         const data = {
           sku: form.get('selected_sku'),
           quantity: Number(form.get('quantity')),
+          description: requestedDates.toString()
         };
-
+        console.log(data);
         const response = await fetch('/.netlify/functions/create-checkout', {
           method: 'POST',
           headers: {
