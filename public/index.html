@@ -120,9 +120,16 @@ new Litepicker({
   },
   setup: (picker) => {
   picker.on('before:show', (el) => {
-    var bookedDates = fetchAvailArr();
-    console.log(bookedDates);
-    document.write(bookedDates);
+    var bookedDatesRes = fetchAvailArr().json;
+    console.log(bookedDatesRes);
+    bookedDatesRes = bookedDatesRes.gcal.response.items;
+    console.log(bookedDatesRes);
+    bookedDates = [];
+    forEach(event in bookedDatesRes) {
+      console.log(event.start.date);
+      console.log(event.end.date);
+    };
+    // document.write(bookedDates);
   });
   picker.on('error:range', () => {
     console.log("A date in the range is already booked.")
