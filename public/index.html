@@ -291,7 +291,7 @@ var getDaysArray = function(start, end) {
         document.getElementById("selected_sku").value = sku;
       };
 
-      bookWizForm.onSubmit = async (event) => {
+      bookWizForm.onSubmit = async function handleSubmit(event) {
         event.preventDefault();
         document
           .querySelectorAll('button')
