@@ -110,6 +110,7 @@
     <script>
 
 var requestedDates = [];
+var requestedRange = "";
 
 var currentTab = 0; // Current tab is set to be the first tab (0)
 showTab(currentTab); // Display the current tab
@@ -146,7 +147,7 @@ function nextPrev(n) {
   if (currentTab >= x.length) {
     console.log(document.getElementById("selected_sku").value);
     console.log(Number(document.getElementById("quantity").value));
-    console.log(requestedDates.toString());
+    console.log(requestedRange);
     //...the form gets submitted:
     document.getElementById("bookWizForm").submit();
     return false;
@@ -221,6 +222,7 @@ window.onload = function(e){
   picker.on('selected', (date1, date2) => {
     var selectedArr = getDaysArray(date1.format('YYYY-MM-DD'), date2.format('YYYY-MM-DD'));
     requestedDates = selectedArr;
+    requestedRange = date1.format('YYYY-MM-DD') + " to " + date2.format('YYYY-MM-DD')
     document.getElementById("quantity").value = selectedArr.length - 1;
   });
 }
@@ -306,7 +308,7 @@ var getDaysArray = function(start, end) {
         const data = {
           sku: document.getElementById("selected_sku").value,
           quantity: Number(document.getElementById("quantity").value),
-          description: requestedDates.toString(),
+          description: requestedRange
         };
         console.log(data);
         const response = await fetch('/.netlify/functions/create-checkout', {
