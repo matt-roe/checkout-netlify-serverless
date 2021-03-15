@@ -19,7 +19,7 @@
       </p>
 
 
-      <form id="bookWizForm" onsubmit="handleSubmit()">
+      <form id="bookWizForm">
         <!-- One "tab" for each step in the form: -->
         <div class="tab">Room:
           <section class="products"></section>
@@ -149,7 +149,8 @@ function nextPrev(n) {
     console.log(Number(document.getElementById("quantity").value));
     console.log(requestedRange);
     //...the form gets submitted:
-    document.getElementById("bookWizForm").submit();
+    //document.getElementById("bookWizForm").submit();
+    handleSubmit()
     return false;
   }
   // Otherwise, display the correct tab:
