@@ -149,8 +149,7 @@ function nextPrev(n) {
     console.log(Number(document.getElementById("quantity").value));
     console.log(requestedRange);
     //...the form gets submitted:
-    //document.getElementById("bookWizForm").submit();
-    handleSubmit()
+    document.getElementById("bookWizForm").submit();
     return false;
   }
   // Otherwise, display the correct tab:
@@ -295,8 +294,7 @@ var getDaysArray = function(start, end) {
         document.getElementById("selected_sku").value = sku;
       };
 
-      async function handleSubmit(event) {
-        console.log(event);
+      bookWizForm.onSubmit = async (event) => {
         event.preventDefault();
         document
           .querySelectorAll('button')
