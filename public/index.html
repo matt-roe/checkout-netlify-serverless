@@ -145,9 +145,6 @@ function nextPrev(n) {
   currentTab = currentTab + n;
   // if you have reached the end of the form... :
   if (currentTab >= x.length) {
-    console.log(document.getElementById("selected_sku").value);
-    console.log(Number(document.getElementById("quantity").value));
-    console.log(requestedRange);
     //...the form gets submitted:
     document.getElementById("bookWizForm").submit();
     return false;
@@ -304,8 +301,7 @@ var getDaysArray = function(start, end) {
         console.log(form);
         const data = {
           sku: document.getElementById("selected_sku").value,
-          quantity: Number(document.getElementById("quantity").value),
-          description: requestedRange
+          quantity: Number(document.getElementById("quantity").value)
         };
         console.log(data);
         console.log(JSON.stringify(data));

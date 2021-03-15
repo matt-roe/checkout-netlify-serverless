@@ -20,12 +20,11 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
 const inventory = require('./data/products.json');
 
 exports.handler = async (event) => {
-  console.log(event.body);
-  const { sku, quantity, description } = JSON.parse(event.body);
+  const { sku, quantity } = JSON.parse(event.body);
   const product = inventory.find((p) => p.sku === sku);
 
   // ensure that the quantity is within the allowed range
-  const validatedQuantity = quantity > 0 && quantity < 30 ? quantity : 1;
+  const validatedQuantity = quantity > 0 && quantity < 11 ? quantity : 1;
 
   const session = await stripe.checkout.sessions.create({
     mode: 'payment',
@@ -46,7 +45,7 @@ exports.handler = async (event) => {
           unit_amount: product.amount,
           product_data: {
             name: product.name,
-            description: description,
+            description: product.description,
             images: [product.image],
           },
         },
@@ -63,7 +62,6 @@ exports.handler = async (event) => {
           sku: product.sku,
           name: product.name,
           quantity: validatedQuantity,
-          dates: description
         },
       ]),
     },
