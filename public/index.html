@@ -292,6 +292,7 @@ var getDaysArray = function(start, end) {
       };
 
       async function handleSubmit(event) {
+        try {
         event.preventDefault();
         document
           .querySelectorAll('button')
@@ -324,6 +325,11 @@ var getDaysArray = function(start, end) {
             .forEach((button) => (button.disabled = false));
           console.error(error);
         }
+
+        } catch(error) {
+          console.log(error.message);
+        }
+      
       };
 
       async function loadProducts() {
