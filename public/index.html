@@ -147,7 +147,7 @@ function nextPrev(n) {
   if (currentTab >= x.length) {
     //...the form gets submitted:
     document.getElementById("bookWizForm").submit();
-    return false;
+    //return false;
   }
   // Otherwise, display the correct tab:
   showTab(currentTab);
@@ -315,17 +315,9 @@ var getDaysArray = function(start, end) {
         }).then((res) => res.json());
 
         const stripe = Stripe(response.publishableKey);
-        const { error } = await stripe.redirectToCheckout({
+        await stripe.redirectToCheckout({
           sessionId: response.sessionId,
         });
-
-        if (error) {
-          document
-            .querySelectorAll('button')
-            .forEach((button) => (button.disabled = false));
-          console.error(error);
-        }
-
         } catch(error) {
           console.log(error.message);
         }
