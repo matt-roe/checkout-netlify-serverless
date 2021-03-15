@@ -104,7 +104,7 @@
         <input type="button" name="selectButton" value="Select Room" onclick=""/>
       </div>
     </template>
-
+    <script src="https://js.stripe.com/v3/"></script>
     <script src="https://cdn.jsdelivr.net/npm/litepicker@2.0.11/dist/litepicker.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/litepicker@2.0.11/dist/plugins/mobilefriendly.js"></script>
     <script>
@@ -282,10 +282,7 @@ var getDaysArray = function(start, end) {
   }
   return arr;
   };
-    </script>
 
-    <script src="https://js.stripe.com/v3/"></script>
-    <script>
       function format(amount, currency) {
         return new Intl.NumberFormat('en-US', {
           style: 'currency',
@@ -311,18 +308,19 @@ var getDaysArray = function(start, end) {
           description: requestedRange
         };
         console.log(data);
-        const response = await fetch('/.netlify/functions/create-checkout', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        }).then((res) => res.json());
+        console.log(JSON.stringify(data));
+        //const response = await fetch('/.netlify/functions/create-checkout', {
+        //  method: 'POST',
+        //  headers: {
+        //    'Content-Type': 'application/json',
+        //  },
+        //  body: JSON.stringify(data),
+        //}).then((res) => res.json());
 
-        const stripe = Stripe(response.publishableKey);
-        const { error } = await stripe.redirectToCheckout({
-          sessionId: response.sessionId,
-        });
+        //const stripe = Stripe(response.publishableKey);
+        //const { error } = await stripe.redirectToCheckout({
+        //  sessionId: response.sessionId,
+        //});
 
         if (error) {
           document
@@ -363,7 +361,6 @@ var getDaysArray = function(start, end) {
           
           products.appendChild(container);
         });
-        // document.getElementById("bookWizForm").addEventListener('submit', handleSubmit);
       }
 
       loadProducts();
