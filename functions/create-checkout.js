@@ -63,6 +63,7 @@ exports.handler = async (event) => {
           sku: product.sku,
           name: product.name,
           quantity: validatedQuantity,
+          dates: description
         },
       ]),
     },
