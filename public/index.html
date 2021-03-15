@@ -144,6 +144,9 @@ function nextPrev(n) {
   currentTab = currentTab + n;
   // if you have reached the end of the form... :
   if (currentTab >= x.length) {
+    console.log(document.getElementById("selected_sku").value);
+    console.log(Number(document.getElementById("quantity").value));
+    console.log(requestedDates.toString());
     //...the form gets submitted:
     document.getElementById("bookWizForm").submit();
     return false;
