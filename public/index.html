@@ -291,7 +291,7 @@ var getDaysArray = function(start, end) {
         document.getElementById("selected_sku").value = sku;
       };
 
-      bookWizForm.onSubmit = async function handleSubmit(event) {
+      async function handleSubmit(event) {
         event.preventDefault();
         document
           .querySelectorAll('button')
@@ -354,6 +354,8 @@ var getDaysArray = function(start, end) {
           const img = container.querySelector('img');
           img.src = product.image;
           img.alt = product.name;
+
+          bookWizForm.addEventListener('submit', handleSubmit);
           
           products.appendChild(container);
         });
