@@ -49,6 +49,7 @@
           <p id="roomNameDisplay"></p>
           <p id="roomPriceDisplay"></p>
           <p id="quantityNightsDisplay"></p>
+          <button type="submit">Book Now</button>
         </div>
         
         <div style="overflow:auto;">
@@ -126,8 +127,9 @@ function showTab(n) {
     document.getElementById("prevBtn").style.display = "inline";
   }
   if (n == (x.length - 1)) {
-    document.getElementById("nextBtn").innerHTML = "Purchase";
+    document.getElementById("nextBtn").style.display= "none";
   } else {
+    document.getElementById("nextBtn").style.display= "inline";
     document.getElementById("nextBtn").innerHTML = "Next";
   }
   // ... and run a function that displays the correct step indicator:
