@@ -205,6 +205,7 @@ function loadLitePicker(minNights){
   singleMode: false,
   delimiter: " to ",
   autoRefresh: true,
+  minDays: minNights+1,
   maxDays: 30,
   minDate: new Date().addDays(3),
   maxDate: new Date().addDays(270),
