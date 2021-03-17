@@ -134,6 +134,7 @@ function showTab(n) {
     document.getElementById("prevBtn").style.display = "inline";
   }
   if (n == 1) {
+    console.log(requestedMinDays);
     loadLitePicker(requestedMinDays);
   }
   if (n == (x.length - 1)) {
