@@ -53,6 +53,9 @@
           <p id="roomPriceDisplay"></p>
           <p id="dateRangeDisplay"></p>
           <p id="quantityNightsDisplay"></p>
+          <p id="cleaningFeeDisplay"></p>
+          <p id="appFeeDisplay"></p>
+          <p id="taxDisplay"></p>
           <p id="totalDisplay"></p>
           <button type="submit">Book Now</button>
         </div>
@@ -112,12 +115,13 @@ var requestedRange = "";
 var requestedRoomName = "";
 var requestedMinNights = 1;
 var requestedMinDays = 2;
-var requestedNumNights = "";
-var requestedRoomPrice = "";
-var requestedRoomCleaningFee = "";
+var requestedNumNights = 0;
+var requestedRoomPrice = 0;
+var requestedRoomCleaningFee = 0;
 var taxPercent = 0;
+var taxTotal = 0;
 var appFeePercent = 5;
-var requestedTaxAmmount = "";
+var appFeeTotal = 0;
 var totalRequestPrice = "";
 
 var currentTab = 0; // Current tab is set to be the first tab (0)
@@ -134,8 +138,17 @@ function showTab(n) {
     document.getElementById("prevBtn").style.display = "inline";
   }
   if (n == 1) {
-    console.log(requestedMinDays);
     loadLitePicker(requestedMinDays);
+  }
+  if (n == 1) {
+    document.getElementById("roomNameDisplay").value = requestedRoomName;
+    document.getElementById("roomPriceDisplay").value = requestedRoomPrice;
+    document.getElementById("dateRangeDisplay").value = requestedRange;
+    document.getElementById("quantityNightsDisplay").value = requestedNumNights;
+    document.getElementById("cleaningFeeDisplay").value = requestedRoomCleaningFee;
+    document.getElementById("appFeeDisplay").value = appFeeTotal;
+    document.getElementById("taxDisplay").value = taxTotal;
+    document.getElementById("totalDisplay").value = totalRequestPrice;
   }
   if (n == (x.length - 1)) {
     document.getElementById("nextBtn").style.display= "none";
