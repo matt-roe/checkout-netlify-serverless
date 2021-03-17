@@ -23,6 +23,10 @@
         <div class="tab">Select a room:
           <section class="products"></section>
           <input type="hidden" id="selected_sku" value="" />
+          <input type="hidden" id="selected_name" value="" />
+          <input type="hidden" id="selected_price" value="" />
+          <input type="hidden" id="selected_min_night" value="" />
+          <input type="hidden" id="selected_clean_fee" value="" />
         </div>
         
         <div class="tab">Select dates of stay:
@@ -47,7 +51,9 @@
         <div class="tab">Confirm details:
           <p id="roomNameDisplay"></p>
           <p id="roomPriceDisplay"></p>
+          <p id="dateRangeDisplay"></p>
           <p id="quantityNightsDisplay"></p>
+          <p id="totalDisplay"></p>
           <button type="submit">Book Now</button>
         </div>
         
@@ -100,8 +106,18 @@
     <script src="https://cdn.jsdelivr.net/npm/litepicker@2.0.11/dist/plugins/mobilefriendly.js"></script>
     <script>
 
+var selectedSku = "";
 var requestedDates = [];
 var requestedRange = "";
+var requestedRoomName = "";
+var requestedMinNights = 0;
+var requestedNumNights = "";
+var requestedRoomPrice = "";
+var requestedRoomCleaningFee = "";
+var taxPercent = 0;
+var appFeePercent = 5;
+var requestedTaxAmmount = "";
+var totalRequestPrice = "";
 
 var currentTab = 0; // Current tab is set to be the first tab (0)
 showTab(currentTab); // Display the current tab
@@ -279,8 +295,17 @@ var getDaysArray = function(start, end) {
         }).format((amount / 100).toFixed(2));
       }
 
-      function handleSelect(sku) {
+      function handleSelect(sku,name,price,minNight,cleanFee) {
+        selectedSku = sku;
+        requestedRoomName = name;
+        requestedRoomPrice = price;
+        requestedMinNights = minNight;
+        requestedRoomCleaningFee = cleanFee;
         document.getElementById("selected_sku").value = sku;
+        document.getElementById("selected_name").value = name;
+        document.getElementById("selected_price").value = price;
+        document.getElementById("selected_min_night").value = minNight;
+        document.getElementById("selected_clean_fee").value = cleanFee;
       };
 
       async function handleSubmit(event) {
@@ -339,7 +364,7 @@ var getDaysArray = function(start, end) {
             product.amount,
             product.currency
           );
-          container.querySelector('[name=selectButton]').setAttribute( "onClick", 'javascript: handleSelect("' + product.sku + '");' );
+          container.querySelector('[name=selectButton]').setAttribute( "onClick", 'javascript: handleSelect("' + product.sku + ',' + product.name + ',' + product.price + ',' + product.min_night + ',' + product.clean_fee + '");' );
 
           const img = container.querySelector('img');
           img.src = product.image;
