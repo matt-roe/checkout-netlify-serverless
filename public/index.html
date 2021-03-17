@@ -110,7 +110,8 @@ var selectedSku = "";
 var requestedDates = [];
 var requestedRange = "";
 var requestedRoomName = "";
-var requestedMinNights = 0;
+var requestedMinNights = 1;
+var requestedMinDays = 2;
 var requestedNumNights = "";
 var requestedRoomPrice = "";
 var requestedRoomCleaningFee = "";
@@ -133,7 +134,7 @@ function showTab(n) {
     document.getElementById("prevBtn").style.display = "inline";
   }
   if (n == 1) {
-    loadLitePicker(requestedMinNights);
+    loadLitePicker(requestedMinDays);
   }
   if (n == (x.length - 1)) {
     document.getElementById("nextBtn").style.display= "none";
@@ -198,14 +199,14 @@ function fixStepIndicator(n) {
 
 var bookedDates = [];
 
-function loadLitePicker(minNights){ 
+function loadLitePicker(minDays){ 
   new Litepicker({
   element: document.getElementById('datepicker'),
   plugins: ['mobilefriendly'],
   singleMode: false,
   delimiter: " to ",
   autoRefresh: true,
-  minDays: minNights+1,
+  minDays: minDays,
   maxDays: 30,
   minDate: new Date().addDays(3),
   maxDate: new Date().addDays(270),
@@ -304,6 +305,7 @@ var getDaysArray = function(start, end) {
         requestedRoomPrice = price;
         requestedMinNights = minNight;
         requestedRoomCleaningFee = cleanFee;
+        requestedMinDays = minNight + 1;
         document.getElementById("selected_sku").value = sku;
         document.getElementById("selected_name").value = name;
         document.getElementById("selected_price").value = price;
