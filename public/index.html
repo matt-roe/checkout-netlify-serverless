@@ -199,11 +199,6 @@ function fixStepIndicator(n) {
 var bookedDates = [];
 
 function loadLitePicker(minNights){ 
-  fetchBookedDates().then(function(fetchBookedDatesRes) {
-  unAvailArr = fetchBookedDatesRes.gcal.response.items;
-  unAvailArr.forEach(addBookedDates);
-
-
   new Litepicker({
   element: document.getElementById('datepicker'),
   plugins: ['mobilefriendly'],
@@ -235,7 +230,13 @@ function loadLitePicker(minNights){
   });
 }
 });
-}, function(error) {
+};
+
+window.onload = function(e){ 
+  fetchBookedDates().then(function(fetchBookedDatesRes) {
+    unAvailArr = fetchBookedDatesRes.gcal.response.items;
+    unAvailArr.forEach(addBookedDates);
+  }, function(error) {
   console.log(error)
 })
 };
