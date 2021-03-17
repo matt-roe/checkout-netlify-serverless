@@ -132,6 +132,9 @@ function showTab(n) {
   } else {
     document.getElementById("prevBtn").style.display = "inline";
   }
+  if (n == 1) {
+    loadLitePicker(requestedMinNights);
+  }
   if (n == (x.length - 1)) {
     document.getElementById("nextBtn").style.display= "none";
   } else {
@@ -195,7 +198,7 @@ function fixStepIndicator(n) {
 
 var bookedDates = [];
 
-window.onload = function(e){ 
+function loadLitePicker(minNights){ 
   fetchBookedDates().then(function(fetchBookedDatesRes) {
   unAvailArr = fetchBookedDatesRes.gcal.response.items;
   unAvailArr.forEach(addBookedDates);
@@ -232,8 +235,6 @@ window.onload = function(e){
   });
 }
 });
-
-
 }, function(error) {
   console.log(error)
 })
