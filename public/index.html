@@ -303,10 +303,10 @@ var getDaysArray = function(start, end) {
       function handleSelect(sku,name,price,minNight,cleanFee) {
         selectedSku = sku;
         requestedRoomName = name;
-        requestedRoomPrice = price;
-        requestedMinNights = minNight;
-        requestedRoomCleaningFee = cleanFee;
-        requestedMinDays = minNight + 1;
+        requestedRoomPrice = int(price);
+        requestedMinNights = int(minNight);
+        requestedRoomCleaningFee = int(cleanFee);
+        requestedMinDays = int(minNight) + 1;
         document.getElementById("selected_sku").value = sku;
         document.getElementById("selected_name").value = name;
         document.getElementById("selected_price").value = price;
