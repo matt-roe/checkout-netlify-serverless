@@ -309,9 +309,9 @@ var getDaysArray = function(start, end) {
         requestedMinDays = parseInt(minNight) + 1;
         document.getElementById("selected_sku").value = sku;
         document.getElementById("selected_name").value = name;
-        document.getElementById("selected_price").value = price;
-        document.getElementById("selected_min_night").value = minNight;
-        document.getElementById("selected_clean_fee").value = cleanFee;
+        document.getElementById("selected_price").value = parseInt(price);
+        document.getElementById("selected_min_night").value = parseInt(minNight);
+        document.getElementById("selected_clean_fee").value = parseInt(cleanFee);
       };
 
       async function handleSubmit(event) {
