@@ -141,14 +141,14 @@ function showTab(n) {
     loadLitePicker(requestedMinDays);
   }
   if (n == 1) {
-    document.getElementById("roomNameDisplay").value = requestedRoomName;
-    document.getElementById("roomPriceDisplay").value = requestedRoomPrice;
-    document.getElementById("dateRangeDisplay").value = requestedRange;
-    document.getElementById("quantityNightsDisplay").value = requestedNumNights;
-    document.getElementById("cleaningFeeDisplay").value = requestedRoomCleaningFee;
-    document.getElementById("appFeeDisplay").value = appFeeTotal;
-    document.getElementById("taxDisplay").value = taxTotal;
-    document.getElementById("totalDisplay").value = totalRequestPrice;
+    document.getElementById("roomNameDisplay").innerText = requestedRoomName;
+    document.getElementById("roomPriceDisplay").innerText = requestedRoomPrice;
+    document.getElementById("dateRangeDisplay").innerText = requestedRange;
+    document.getElementById("quantityNightsDisplay").innerText = requestedNumNights;
+    document.getElementById("cleaningFeeDisplay").innerText = requestedRoomCleaningFee;
+    document.getElementById("appFeeDisplay").innerText = appFeeTotal;
+    document.getElementById("taxDisplay").innerText = taxTotal;
+    document.getElementById("totalDisplay").innerText = totalRequestPrice;
   }
   if (n == (x.length - 1)) {
     document.getElementById("nextBtn").style.display= "none";
