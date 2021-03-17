@@ -364,7 +364,7 @@ var getDaysArray = function(start, end) {
             product.amount,
             product.currency
           );
-          container.querySelector('[name=selectButton]').setAttribute( "onClick", 'javascript: handleSelect("' + product.sku + ',' + product.name + ',' + product.price + ',' + product.min_night + ',' + product.clean_fee + '");' );
+          container.querySelector('[name=selectButton]').setAttribute( "onClick", 'javascript: handleSelect("' + product.sku + '","' + product.name + '","' + product.price + '","' + product.min_night + '","' + product.clean_fee + '");' );
 
           const img = container.querySelector('img');
           img.src = product.image;
