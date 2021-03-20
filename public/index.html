@@ -53,8 +53,9 @@
 
         <div class="tab">Confirm details:
           <p id="roomNameDisplay"></p>
-          <p id="roomPriceDisplay"></p>
           <p id="dateRangeDisplay"></p>
+          <p id="roomPriceDisplay"></p>
+          <p id="roomTotalDisplay"></p>
           <p id="quantityNightsDisplay"></p>
           <p id="cleaningFeeDisplay"></p>
           <p id="appFeeDisplay"></p>
@@ -128,12 +129,14 @@
       var requestedMinDays = 2;
       var requestedNumNights = 0;
       var requestedRoomPrice = 0;
+      var requestedRoomTax = 0;
+      var requestedRoomTotal = 0;
       var requestedRoomCleaningFee = 0;
       var taxPercent = 0;
       var taxTotal = 0;
-      var appFeePercent = 5;
+      var appFeePercent = 0.05;
       var appFeeTotal = 0;
-      var totalRequestPrice = "";
+      var totalRequestPrice = 0;
 
       var currentTab = 0; // Current tab is set to be the first tab (0)
       showTab(currentTab); // Display the current tab
@@ -157,31 +160,37 @@
         if (n == 1) {
           loadLitePicker(requestedMinDays, selectedAvailability);
         }
-        if (n == 1) {
+        if (n == 2) {
+          calculateTotal(requestedRoomPrice,requestedNumNights,requestedRoomTax);
+        }
+        if (n == 3) {
           document
             .getElementById("roomNameDisplay")
-            .innerText = requestedRoomName;
+            .innerText = "Room name: "+requestedRoomName;
           document
             .getElementById("roomPriceDisplay")
-            .innerText = requestedRoomPrice;
+            .innerText = "$"+requestedRoomPrice/100+" per night";
           document
+            .getElementById("roomTotalDisplay")
+            .innerText = "Room x Nights = $"+requestedRoomTotal/100;
+            document
             .getElementById("dateRangeDisplay")
-            .innerText = requestedRange;
+            .innerText = "Dates requested: "+requestedRange;
           document
             .getElementById("quantityNightsDisplay")
-            .innerText = requestedNumNights;
+            .innerText = "Number of Nights: "+requestedNumNights;
           document
             .getElementById("cleaningFeeDisplay")
-            .innerText = requestedRoomCleaningFee;
+            .innerText = "Cleaning fee: $"+requestedRoomCleaningFee/100;
           document
             .getElementById("appFeeDisplay")
-            .innerText = appFeeTotal;
+            .innerText = "Online booking fee: $"+appFeeTotal/100;
           document
             .getElementById("taxDisplay")
-            .innerText = taxTotal;
+            .innerText = "Rental tax: $"+taxTotal/100;
           document
             .getElementById("totalDisplay")
-            .innerText = totalRequestPrice;
+            .innerText = "Total: $"+totalRequestPrice/100;
         }
         if (n == (x.length - 1)) {
           document
@@ -248,6 +257,14 @@
         return valid; // return the valid status
       }
 
+      function calculateTotal(roomCost,roomNights,roomTax) {
+        requestedRoomTotal = roomCost * roomNights;
+        taxPercent = roomTax/100;
+        taxTotal = (requestedRoomTotal + requestedRoomCleaningFee) * taxPercent;
+        appFeeTotal = (requestedRoomTotal + requestedRoomCleaningFee) * appFeePercent;
+        totalRequestPrice = requestedRoomTotal + requestedRoomCleaningFee + taxTotal + appFeeTotal;
+      }
+
       function fixStepIndicator(n) {
         // This function removes the "active" class of all steps...
         var i,
@@ -296,10 +313,11 @@
             picker.on('selected', (date1, date2) => {
               var selectedArr = getDaysArray(date1.format('YYYY-MM-DD'), date2.format('YYYY-MM-DD'));
               requestedDates = selectedArr;
-              requestedRange = date1.format('YYYY-MM-DD') + " to " + date2.format('YYYY-MM-DD')
+              requestedRange = date1.format('YYYY-MM-DD') + " to " + date2.format('YYYY-MM-DD');
+              requestedNumNights = selectedArr.length - 1;
               document
                 .getElementById("quantity")
-                .value = selectedArr.length - 1;
+                .value = requestedNumNights;
             });
           }
         });
@@ -378,7 +396,7 @@
           .format((amount / 100).toFixed(2));
       }
 
-      function handleSelect(sku, name, price, minNight, cleanFee, availability) {
+      function handleSelect(sku, name, price, minNight, cleanFee, availability, tax) {
         console.log(availability);
         selectedSku = sku;
         requestedRoomName = name;
@@ -387,6 +405,7 @@
         requestedRoomCleaningFee = parseInt(cleanFee);
         requestedMinDays = parseInt(minNight) + 1;
         selectedAvailability = availability;
+        requestedRoomTax = parseInt(tax);
         document
           .getElementById("selected_sku")
           .value = sku;
@@ -464,7 +483,7 @@
                       productAvailability.push(eventStartEndArr);
                     });
                     JSONavailability = JSON.stringify(productAvailability);
-                    cardElement.setAttribute("onClick", 'javascript: handleSelect("' + product.sku + '","' + product.name + '","' + product.amount + '","' + product.min_night + '","' + product.clean_fee + '",' + JSONavailability + ');');
+                    cardElement.setAttribute("onClick", 'javascript: handleSelect("' + product.sku + '","' + product.name + '","' + product.amount + '","' + product.min_night + '","' + product.clean_fee + '",' + JSONavailability + ',"' + product.tax + '");');
                     next()
                   }, function (error) {
                     console.log(error)
