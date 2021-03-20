@@ -2,21 +2,25 @@
   {
     "sku": "DEMO001",
     "name": "The Office",
-    "description": "Studio",
-    "image": "https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=600&h=600&q=80",
+    "description": "Studio (one room) apartment with bath. Sleeps 4 max on 1 queen and 1 futon bed.",
+    "image": "https://oldsheepranchinn.com/assets/img/shots/P1290047.JPG",
     "amount": 5000,
     "currency": "USD",
     "clean_fee": 2500,
-    "min_night": 1
+    "min_night": 1,
+    "more_info": "https://www.airbnb.com/rooms/28758678",
+    "calendar": "nb5f1bqlo36h06oemhkb92r6hie8onrp@import.calendar.google.com"
   },
   {
     "sku": "DEMO002",
     "name": "The Bar",
-    "description": "Apartment",
-    "image": "https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=600&h=600&q=80",
+    "description": "Full single bedroom apartment. Kitchen, laundry, and bath. Sleeps 5 max on 1 queen, 1 futon bed, and 1 day bed.",
+    "image": "https://oldsheepranchinn.com/assets/img/shots/P1290081.JPG",
     "amount": 8000,
     "currency": "USD",
     "clean_fee": 4000,
-    "min_night": 3
+    "min_night": 3,
+    "more_info": "https://www.airbnb.com/rooms/28756537",
+    "calendar": "q9fph8bjkgtv9l012jak1ts1jk2qhdgu@import.calendar.google.com"
   }
 ]

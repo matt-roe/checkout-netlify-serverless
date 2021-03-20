@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Breezy Book - Old Sheep Ranch Inn</title>
     <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-teal.min.css" />
+    <link rel="stylesheet"href="https://fonts.googleapis.com/icon?family=Material+Icons" />
   </head>
   <body>
     <header>
@@ -18,7 +20,7 @@
       </p>
 
 
-      <form id="bookWizForm">
+      <form id="bookWizForm" style="text-align:center;margin-left:auto;margin-right:auto;width:100%;">
         <!-- One "tab" for each step in the form: -->
         <div class="tab">Select a room:
           <section class="products"></section>
@@ -27,19 +29,23 @@
           <input type="hidden" id="selected_price" value="" />
           <input type="hidden" id="selected_min_night" value="" />
           <input type="hidden" id="selected_clean_fee" value="" />
+          <input type="hidden" id="selected_availability" value="" />
         </div>
         
         <div class="tab">Select dates of stay:
-          <input type="text" id="datepicker"/>
-          <label for="quantity">Nights</label>
-          <input
-            type="number"
-            id="quantity"
-            name="quantity"
-            value="1"
-            min="1"
-            disabled
-          />
+          
+          <div style="max-width:300px;margin-left:auto;margin-right:auto;text-align:center;"><input type="text" id="datepicker"/></div>
+          <div style="max-width:300px;margin-top:20px;margin-left:auto;margin-right:auto;">
+            <label for="quantity">Number of nights selected:</label>
+            <input style="max-width:40px;margin-top:20px;text-align:center;"
+              type="number"
+              id="quantity"
+              name="quantity"
+              value="1"
+              min="1"
+              disabled
+            /></div>
+          
         </div>
         
         <div class="tab">Terms and conditions:
@@ -57,29 +63,21 @@
           <p id="appFeeDisplay"></p>
           <p id="taxDisplay"></p>
           <p id="totalDisplay"></p>
-          <button type="submit">Book Now</button>
-        </div>
-        
-        <div style="overflow:auto;">
-          <div style="float:right;">
-            <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
-            <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
-          </div>
+          <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" type="submit">Book Now</button>
         </div>
         
         <!-- Circles which indicates the steps of the form: -->
-        <div style="text-align:center;margin-top:40px;">
-          <span class="step"></span>
-          <span class="step"></span>
-          <span class="step"></span>
-          <span class="step"></span>
+        <div style="padding-top:30px;text-align:center;margin-left:auto;margin-right:auto;width:100%;">
+          <span style="float:left;width:30%;"><button type="button" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored mdl-js-ripple-effect" id="prevBtn" onclick="nextPrev(-1)"><i class="material-icons">arrow_back</i></button></span>
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+          <span style="float:right;width:30%;"><button type="button" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored mdl-js-ripple-effect" id="nextBtn" onclick="nextPrev(1)"><i class="material-icons">arrow_forward</i></button></span>
         </div>
         
         </form>
 
-
-      
-      
     </main>
 
     <footer>
@@ -96,20 +94,35 @@
     </footer>
 
     <template id="product">
-      <div class="product">
-        <img src="" alt="" />
-        <h2>name</h2>
-        <p class="description">description</p>
-        <p class="price">price</p>
-        <input type="button" name="selectButton" value="Select Room" onclick=""/>
-      </div>
+      <button onclick="" type="button" class="product demo-card-square mdl-card mdl-shadow--3dp mdl-button mdl-js-button mdl-js-ripple-effect">
+        <h2 class="mdl-card__title-text">Update</h2>
+        <div class="mdl-card__title mdl-card--expand">
+        </div>
+        <div class="description mdl-card__supporting-text">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          Aenan convallis.
+        </div>
+        <div class="mdl-card__actions mdl-card--border">
+          <div class="price">
+            $0
+          </div>
+          <div class="mdl-layout-spacer"></div>
+          <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored" target="_blank">
+            More Info
+          </a>
+        </div>
+      </button>
     </template>
+
+    
+
     <script src="https://js.stripe.com/v3/"></script>
     <script src="https://cdn.jsdelivr.net/npm/litepicker@2.0.11/dist/litepicker.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/litepicker@2.0.11/dist/plugins/mobilefriendly.js"></script>
     <script>
 
 var selectedSku = "";
+var selectedAvailability = [];
 var requestedDates = [];
 var requestedRange = "";
 var requestedRoomName = "";
@@ -133,9 +146,9 @@ function showTab(n) {
   x[n].style.display = "block";
   // ... and fix the Previous/Next buttons:
   if (n == 0) {
-    document.getElementById("prevBtn").style.display = "none";
+    document.getElementById("prevBtn").style.visibility= "hidden";
   } else {
-    document.getElementById("prevBtn").style.display = "inline";
+    document.getElementById("prevBtn").style.visibility= "visible";
   }
   if (n == 1) {
     loadLitePicker(requestedMinDays);
@@ -151,10 +164,9 @@ function showTab(n) {
     document.getElementById("totalDisplay").innerText = totalRequestPrice;
   }
   if (n == (x.length - 1)) {
-    document.getElementById("nextBtn").style.display= "none";
+    document.getElementById("nextBtn").style.visibility= "hidden";
   } else {
-    document.getElementById("nextBtn").style.display= "inline";
-    document.getElementById("nextBtn").innerHTML = "Next";
+    document.getElementById("nextBtn").style.visibility= "visible";
   }
   // ... and run a function that displays the correct step indicator:
   fixStepIndicator(n)
@@ -230,7 +242,7 @@ function loadLitePicker(minDays){
     one: 'night',
     other: 'nights'
   },
-  lockDays: (bookedDates),
+  lockDays: (selectedAvailability),
   tooltipNumber: (totalDays) => {
     return totalDays - 1;
   },
@@ -249,16 +261,24 @@ function loadLitePicker(minDays){
 };
 
 window.onload = function(e){ 
-  fetchBookedDates().then(function(fetchBookedDatesRes) {
-    unAvailArr = fetchBookedDatesRes.gcal.response.items;
-    unAvailArr.forEach(addBookedDates);
-  }, function(error) {
-  console.log(error)
-})
+
 };
 
-async function fetchBookedDates() {
-  const bookedDatesRes = await fetch('https://oldsheepranchinn.api.stdlib.com/availability@dev/');
+async function fetchBookedDates(calendarId) {
+  const availRequestBody = {
+          calId: calendarId
+        };
+  
+  const bookedDatesFetchSettings = {
+        method: 'POST',
+        body: JSON.stringify(availRequestBody),
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        }
+    };
+
+  const bookedDatesRes = await fetch('https://oldsheepranchinn.api.stdlib.com/availability@dev/', bookedDatesFetchSettings);
 
   if (!bookedDatesRes.ok) {
     const message = `An error has occured: ${bookedDatesRes.status}`;
@@ -273,16 +293,6 @@ async function fetchBookedDates() {
 fetchBookedDates().catch(error => {
   error.message; // 'An error has occurred: 404'
 });
-
-function addBookedDates(event) {
-  // let arrayBooked = getDaysArray(event.start.date,event.end.date);
-  //arrayBooked.forEach((day) => {
-  //day = dateToYMD(day);
-  let eventStartEndArr = [event.start.date,event.end.date]
-  bookedDates.push(eventStartEndArr);
-  //});
-  
-};
 
 function dateToYMD(date) {
     var d = date.getDate();
@@ -313,18 +323,20 @@ var getDaysArray = function(start, end) {
         }).format((amount / 100).toFixed(2));
       }
 
-      function handleSelect(sku,name,price,minNight,cleanFee) {
+      function handleSelect(sku,name,price,minNight,cleanFee,availability) {
         selectedSku = sku;
         requestedRoomName = name;
         requestedRoomPrice = parseInt(price);
         requestedMinNights = parseInt(minNight);
         requestedRoomCleaningFee = parseInt(cleanFee);
         requestedMinDays = parseInt(minNight) + 1;
+        selectedAvailability = availability;
         document.getElementById("selected_sku").value = sku;
         document.getElementById("selected_name").value = name;
         document.getElementById("selected_price").value = parseInt(price);
         document.getElementById("selected_min_night").value = parseInt(minNight);
         document.getElementById("selected_clean_fee").value = parseInt(cleanFee);
+        document.getElementById("selected_availability").value = availability;
       };
 
       async function handleSubmit(event) {
@@ -333,15 +345,11 @@ var getDaysArray = function(start, end) {
         document
           .querySelectorAll('button')
           .forEach((button) => (button.disabled = true));
-        console.log(event.target);
         const form = new FormData(event.target);
-        console.log(form);
         const data = {
           sku: document.getElementById("selected_sku").value,
           quantity: Number(document.getElementById("quantity").value)
         };
-        console.log(data);
-        console.log(JSON.stringify(data));
         const response = await fetch('/.netlify/functions/create-checkout', {
           method: 'POST',
           headers: {
@@ -374,25 +382,40 @@ var getDaysArray = function(start, end) {
         const template = document.querySelector('#product');
 
         data.forEach((product) => {
+          var availability = [];
+
+          fetchBookedDates(product.calendar).then(function(fetchBookedDatesRes) {
+            unAvailArr = fetchBookedDatesRes.gcal.response.items;
+            unAvailArr.forEach(function(event) {
+                let eventStartEndArr = [event.start.date,event.end.date]
+                availability.push(eventStartEndArr);
+              });
+            }, function(error) {
+              console.log(error)
+            })
+
           const container = template.content.cloneNode(true);
 
-          container.querySelector('h2').innerText = product.name;
-          container.querySelector('.description').innerText =
-            product.description;
-          container.querySelector('.price').innerText = format(
+          cardElement = container.querySelector('.product')
+          cardElement.setAttribute( "onClick", 'javascript: handleSelect("' + product.sku + '","' + product.name + '","' + product.amount + '","' + product.min_night + '","' + product.clean_fee + '","' + availability + '");' );
+          
+          container.querySelector('.mdl-card__title-text').innerText = product.name;
+
+          titleElement = container.querySelector('.mdl-card__title');
+          titleElement.style.background = "url("+product.image+") center center no-repeat";
+
+          container.querySelector('.description').innerText = product.description;
+
+          actionsElement = container.querySelector('.mdl-card__actions');
+          actionsElement.querySelector('.price').innerText = format(
             product.amount,
             product.currency
           );
-          container.querySelector('[name=selectButton]').setAttribute( "onClick", 'javascript: handleSelect("' + product.sku + '","' + product.name + '","' + product.price + '","' + product.min_night + '","' + product.clean_fee + '");' );
+          actionsElement.querySelector('.mdl-button').setAttribute( "href", product.more_info );
 
-          const img = container.querySelector('img');
-          img.src = product.image;
-          img.alt = product.name;
-
-          bookWizForm.addEventListener('submit', handleSubmit);
-          
           products.appendChild(container);
         });
+        bookWizForm.addEventListener('submit', handleSubmit);
       }
 
       loadProducts();
