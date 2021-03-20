@@ -437,7 +437,8 @@
             sku: document
               .getElementById("selected_sku")
               .value,
-            quantity: Number(document.getElementById("quantity").value)
+            quantity: Number(document.getElementById("quantity").value),
+            dates: requestedRange
           };
           const response = await fetch('/.netlify/functions/create-checkout', {
             method: 'POST',
