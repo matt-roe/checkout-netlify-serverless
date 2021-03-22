@@ -10,7 +10,7 @@
     "min_night": 1,
     "more_info": "https://www.airbnb.com/rooms/28758678",
     "calendar": "nb5f1bqlo36h06oemhkb92r6hie8onrp@import.calendar.google.com",
-    "tax": "7"
+    "tax": 7
   },
   {
     "sku": "DEMO002",
@@ -23,6 +23,6 @@
     "min_night": 3,
     "more_info": "https://www.airbnb.com/rooms/28756537",
     "calendar": "q9fph8bjkgtv9l012jak1ts1jk2qhdgu@import.calendar.google.com",
-    "tax": "7"
+    "tax": 7
   }
 ]

@@ -434,10 +434,8 @@
             .forEach((button) => (button.disabled = true));
           const form = new FormData(event.target);
           const data = {
-            sku: document
-              .getElementById("selected_sku")
-              .value,
-            quantity: Number(document.getElementById("quantity").value),
+            sku: selectedSku,
+            nights: requestedNumNights,
             dates: requestedRange
           };
           const response = await fetch('/.netlify/functions/create-checkout', {

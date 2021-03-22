@@ -20,11 +20,16 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
 const inventory = require('./data/products.json');
 
 exports.handler = async (event) => {
-  const { sku, quantity, dates } = JSON.parse(event.body);
+  const { sku, nights, dates } = JSON.parse(event.body);
   const product = inventory.find((p) => p.sku === sku);
+  const validatedQuantity = 1;
+  const appFeePercent = 0.05;
 
-  // ensure that the quantity is within the allowed range
-  const validatedQuantity = quantity > 0 && quantity < 11 ? quantity : 1;
+  const roomTotal = (parseInt(product.amount) * parseInt(nights));
+  const taxPercent = product.tax/100;
+  const taxTotal = (roomTotal + product.clean_fee) * taxPercent;
+  const appFeeTotal = (roomTotal + product.clean_fee) * appFeePercent;
+  const totalRequestPrice = roomTotal + product.clean_fee + taxTotal + appFeeTotal;
 
   const session = await stripe.checkout.sessions.create({
     mode: 'payment',
@@ -42,7 +47,7 @@ exports.handler = async (event) => {
       {
         price_data: {
           currency: 'usd',
-          unit_amount: product.amount,
+          unit_amount: totalRequestPrice,
           product_data: {
             name: product.name,
             description: dates,
@@ -61,7 +66,11 @@ exports.handler = async (event) => {
         {
           sku: product.sku,
           name: product.name,
-          quantity: validatedQuantity,
+          room_total: roomTotal,
+          tax_total: taxTotal,
+          app_fee_total: appFeeTotal,
+          unit_amount: totalRequestPrice,
+          dates: dates
         },
       ]),
     },
