@@ -20,7 +20,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
 const inventory = require('./data/products.json');
 
 exports.handler = async (event) => {
-  const { sku, nights, dates } = JSON.parse(event.body);
+  const { sku, nights, dates, checkin, checkout, calendar } = JSON.parse(event.body);
   const product = inventory.find((p) => p.sku === sku);
   const validatedQuantity = 1;
   const appFeePercent = 0.05;
@@ -62,17 +62,16 @@ exports.handler = async (event) => {
     // the fulfillment process.
     // In a real application you would track this in an order object in your database.
     metadata: {
-      items: JSON.stringify([
-        {
           sku: product.sku,
           name: product.name,
           room_total: roomTotal,
           tax_total: taxTotal,
           app_fee_total: appFeeTotal,
           unit_amount: totalRequestPrice,
-          dates: dates
-        },
-      ]),
+          dates: dates,
+          checkin: checkin,
+          checkout: checkout,
+          calendar: calendar
     },
   });
 

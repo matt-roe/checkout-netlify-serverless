@@ -124,6 +124,8 @@
       var selectedAvailability = [];
       var requestedDates = [];
       var requestedRange = "";
+      var requestedCheckIn = "";
+      var requestedCheckOut = "";
       var requestedRoomName = "";
       var requestedMinNights = 1;
       var requestedMinDays = 2;
@@ -137,6 +139,7 @@
       var appFeePercent = 0.05;
       var appFeeTotal = 0;
       var totalRequestPrice = 0;
+      var calendar2Book = "";
 
       var currentTab = 0; // Current tab is set to be the first tab (0)
       showTab(currentTab); // Display the current tab
@@ -313,6 +316,8 @@
             picker.on('selected', (date1, date2) => {
               var selectedArr = getDaysArray(date1.format('YYYY-MM-DD'), date2.format('YYYY-MM-DD'));
               requestedDates = selectedArr;
+              requestedCheckIn = date1.format('YYYY-MM-DD');
+              requestedCheckOut = date2.format('YYYY-MM-DD');
               requestedRange = date1.format('YYYY-MM-DD') + " to " + date2.format('YYYY-MM-DD');
               requestedNumNights = selectedArr.length - 1;
               document
@@ -396,7 +401,7 @@
           .format((amount / 100).toFixed(2));
       }
 
-      function handleSelect(sku, name, price, minNight, cleanFee, availability, tax) {
+      function handleSelect(sku, name, price, minNight, cleanFee, availability, tax, calendarOut) {
         console.log(availability);
         selectedSku = sku;
         requestedRoomName = name;
@@ -406,6 +411,7 @@
         requestedMinDays = parseInt(minNight) + 1;
         selectedAvailability = availability;
         requestedRoomTax = parseInt(tax);
+        calendar2Book = calendarOut;
         document
           .getElementById("selected_sku")
           .value = sku;
@@ -436,7 +442,10 @@
           const data = {
             sku: selectedSku,
             nights: requestedNumNights,
-            dates: requestedRange
+            dates: requestedRange,
+            checkin: requestedCheckIn,
+            checkout: requestedCheckOut,
+            calendar: calendar2Book
           };
           const response = await fetch('/.netlify/functions/create-checkout', {
             method: 'POST',
@@ -482,7 +491,7 @@
                       productAvailability.push(eventStartEndArr);
                     });
                     JSONavailability = JSON.stringify(productAvailability);
-                    cardElement.setAttribute("onClick", 'javascript: handleSelect("' + product.sku + '","' + product.name + '","' + product.amount + '","' + product.min_night + '","' + product.clean_fee + '",' + JSONavailability + ',"' + product.tax + '");');
+                    cardElement.setAttribute("onClick", 'javascript: handleSelect("' + product.sku + '","' + product.name + '","' + product.amount + '","' + product.min_night + '","' + product.clean_fee + '",' + JSONavailability + ',"' + product.tax + '","' + product.calendarOut + '");');
                     next()
                   }, function (error) {
                     console.log(error)
