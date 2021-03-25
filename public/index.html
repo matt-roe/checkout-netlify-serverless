@@ -454,7 +454,8 @@
             },
             body: JSON.stringify(data)
           }).then((res) => res.json());
-          // , {stripeAccount: response.stripeAccount}
+          // remove the following for transfer, add the following immediatly after "response.publishableKey" for direct
+          //, {stripeAccount: response.stripeAccount}
           const stripe = Stripe(response.publishableKey, {stripeAccount: response.stripeAccount});
           await stripe.redirectToCheckout({sessionId: response.sessionId});
         } catch (error) {

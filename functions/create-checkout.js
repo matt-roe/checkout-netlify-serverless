@@ -60,6 +60,7 @@ exports.handler = async (event) => {
     ],
     payment_intent_data: {
       application_fee_amount: appFeeTotal,
+      // comment out the below 3 lines for direct charge
       //on_behalf_of: process.env.STRIPE_ACCOUNT_ID,
       //transfer_data: {
       //  destination: process.env.STRIPE_ACCOUNT_ID,
@@ -82,7 +83,8 @@ exports.handler = async (event) => {
           checkout: checkout,
           calendar: calendar
     }
-  }, 
+  },
+  // comment out below 3 lines for transfer charge 
   {
     stripeAccount: process.env.STRIPE_ACCOUNT_ID,
   }
