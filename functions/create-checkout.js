@@ -1,9 +1,16 @@
 /*
  * This function creates a Stripe Checkout session and returns the session ID
  * for use with Stripe.js (specifically the redirectToCheckout method).
- *
+ *  
  * @see https://stripe.com/docs/payments/checkout/one-time
  */
+    /*
+     * This env var is set by Netlify and inserts the live site URL. If you want
+     * to use a different URL, you can hard-code it here or check out the
+     * other environment variables Netlify exposes:
+     * https://docs.netlify.com/configure-builds/environment-variables/
+     */
+
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2020-08-27',
   maxNetworkRetries: 2,
@@ -13,7 +20,11 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
  * Product data can be loaded from anywhere. In this case, we’re loading it from
  * a local JSON file, but this could also come from an async call to your
  * inventory management service, a database query, or some other API call.
- *
+ *   
+ * 
+ * https://stripe.com/docs/api/checkout/sessions/create
+ * 
+ * 
  * The important thing is that the product info is loaded from somewhere trusted
  * so you know the pricing information is accurate.
  */
@@ -32,31 +43,29 @@ exports.handler = async (event) => {
   const totalRequestPrice = roomTotal + product.clean_fee + taxTotal + appFeeTotal;
 
   const session = await stripe.checkout.sessions.create({
-    mode: 'payment',
     payment_method_types: ['card'],
     billing_address_collection: 'required',
-    /*
-     * This env var is set by Netlify and inserts the live site URL. If you want
-     * to use a different URL, you can hard-code it here or check out the
-     * other environment variables Netlify exposes:
-     * https://docs.netlify.com/configure-builds/environment-variables/
-     */
     success_url: `${process.env.URL}/success.html`,
     cancel_url: process.env.URL,
+    submit_type: 'book',
     line_items: [
       {
-        price_data: {
-          currency: 'usd',
-          unit_amount: totalRequestPrice,
-          product_data: {
-            name: product.name,
-            description: dates,
-            images: [product.image],
-          },
-        },
-        quantity: validatedQuantity,
+        name: product.name,
+        description: dates,
+        currency: 'usd',
+        amount: totalRequestPrice,
+        images: [product.image],
+        quantity: validatedQuantity
       },
     ],
+    payment_intent_data: {
+      application_fee_amount: appFeeTotal,
+      //on_behalf_of: process.env.STRIPE_ACCOUNT_ID,
+      //transfer_data: {
+      //  destination: process.env.STRIPE_ACCOUNT_ID,
+      //}
+    },
+    
     // We are using the metadata to track which items were purchased.
     // We can access this meatadata in our webhook handler to then handle
     // the fulfillment process.
@@ -72,14 +81,19 @@ exports.handler = async (event) => {
           checkin: checkin,
           checkout: checkout,
           calendar: calendar
-    },
-  });
+    }
+  }, 
+  {
+    stripeAccount: process.env.STRIPE_ACCOUNT_ID,
+  }
+  );
 
   return {
     statusCode: 200,
     body: JSON.stringify({
       sessionId: session.id,
       publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
-    }),
-  };
-};
+      stripeAccount: process.env.STRIPE_ACCOUNT_ID
+    })
+  }
+}
