@@ -7,7 +7,7 @@ body {
 }
 
 header {
-  background: rgb(100,255,218,1);
+  background: rgb(63,81,181,1);
   padding: 1rem 5vw;
 }
 
@@ -85,7 +85,7 @@ input.invalid {
 
 /* Mark the steps that are finished and valid: */
 .step.finish {
-  background-color: #4CAF50;
+  background-color: rgb(100,255,218,1);
 }
 
 .demo-card-square.mdl-card {
