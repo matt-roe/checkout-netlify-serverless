@@ -4,12 +4,13 @@
  *  
  * @see https://stripe.com/docs/payments/checkout/one-time
  */
-    /*
-     * This env var is set by Netlify and inserts the live site URL. If you want
-     * to use a different URL, you can hard-code it here or check out the
-     * other environment variables Netlify exposes:
-     * https://docs.netlify.com/configure-builds/environment-variables/
-     */
+
+  /*
+  * This env var is set by Netlify and inserts the live site URL. If you want
+  * to use a different URL, you can hard-code it here or check out the
+  * other environment variables Netlify exposes:
+  * https://docs.netlify.com/configure-builds/environment-variables/
+  */
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2020-08-27',
@@ -20,10 +21,6 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
  * Product data can be loaded from anywhere. In this case, we’re loading it from
  * a local JSON file, but this could also come from an async call to your
  * inventory management service, a database query, or some other API call.
- *   
- * 
- * https://stripe.com/docs/api/checkout/sessions/create
- * 
  * 
  * The important thing is that the product info is loaded from somewhere trusted
  * so you know the pricing information is accurate.
@@ -69,9 +66,7 @@ exports.handler = async (event) => {
     },
     
     // We are using the metadata to track which items were purchased.
-    // We can access this meatadata in our webhook handler to then handle
-    // the fulfillment process.
-    // In a real application you would track this in an order object in your database.
+    // We can access this meatadata in our webhook handler to then handle the fulfillment process.
     metadata: {
           sku: product.sku,
           name: product.name,

@@ -28,21 +28,13 @@
         <!-- One "tab" for each step in the form: -->
         <div class="tab">Select a room:
           <section class="products"></section>
-          <input type="hidden" id="selected_sku" value=""/>
-          <input type="hidden" id="selected_name" value=""/>
-          <input type="hidden" id="selected_price" value=""/>
-          <input type="hidden" id="selected_min_night" value=""/>
-          <input type="hidden" id="selected_clean_fee" value=""/>
-          <input type="hidden" id="selected_availability" value=""/>
         </div>
 
         <div class="tab">Select dates of stay:
-
           <div style="max-width:300px;margin-left:auto;margin-right:auto;text-align:center;"><input type="text" id="datepicker"/></div>
           <div style="max-width:300px;margin-top:20px;margin-left:auto;margin-right:auto;">
             <label for="quantity">Number of nights selected:</label>
             <input style="max-width:40px;margin-top:20px;text-align:center;" type="number" id="quantity" name="quantity" value="1" min="1" disabled="disabled"/></div>
-
         </div>
 
         <div class="tab">Terms and conditions:
@@ -412,24 +404,6 @@
         selectedAvailability = availability;
         requestedRoomTax = parseInt(tax);
         calendar2Book = calendarOut;
-        document
-          .getElementById("selected_sku")
-          .value = sku;
-        document
-          .getElementById("selected_name")
-          .value = name;
-        document
-          .getElementById("selected_price")
-          .value = parseInt(price);
-        document
-          .getElementById("selected_min_night")
-          .value = parseInt(minNight);
-        document
-          .getElementById("selected_clean_fee")
-          .value = parseInt(cleanFee);
-        document
-          .getElementById("selected_availability")
-          .value = availability;
       };
 
       async function handleSubmit(event) {
