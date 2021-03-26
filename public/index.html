@@ -34,11 +34,11 @@
           <input type="hidden" id="sku" name="sku" value="">
         </div>
 
-        <div class="tab">Select dates of stay:
-          <div style="max-width:300px;margin-left:auto;margin-right:auto;text-align:center;"><input type="text" id="datepicker"/></div>
-          <div style="max-width:300px;margin-top:20px;margin-left:auto;margin-right:auto;">
+        <div class="tab" style="margin-left:auto;margin-right:auto;text-align:center;">Select dates of stay:<br>
+          <input style="max-width:240px;margin-left:auto;margin-right:auto;text-align:center;" type="text" id="datepicker"/>
+          <div style="max-width:240px;margin-top:20px;margin-left:auto;margin-right:auto;">
             <label for="quantity">Number of nights selected:</label>
-            <input style="max-width:40px;margin-top:20px;text-align:center;" type="number" id="quantity" name="quantity" value="1" min="1" disabled="disabled"/></div>
+            <input style="max-width:40px;margin-top:20px;text-align:center;border:none;" type="number" id="quantity" name="quantity" value="1" min="1" disabled="disabled"/></div>
         </div>
 
         <div class="tab">Terms and conditions:
@@ -403,17 +403,18 @@
       centeredSlides: true,
       slidesPerView: 'auto',
       coverflowEffect: {
-        rotate: 50,
+        rotate: 10,
         stretch: 0,
-        depth: 100,
-        modifier: 1,
-        slideShadows: true,
+        depth: 20,
+        modifier: 2,
+        slideShadows: false,
       },
       freeMode: true,
       centeredSlides: true,
       grabCursor: true,
       });
-    }
+      }
+      
       function handleSelect(sku, name, price, minNight, cleanFee, availability, tax, calendarOut) {
         
         selectedSku = sku;
