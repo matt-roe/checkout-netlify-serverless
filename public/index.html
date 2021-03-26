@@ -44,15 +44,48 @@
         </div>
 
         <div class="tab">Confirm details:
-          <p id="roomNameDisplay"></p>
-          <p id="dateRangeDisplay"></p>
-          <p id="quantityNightsDisplay"></p>
-          <p id="roomPriceDisplay"></p>
-          <p id="roomTotalDisplay"></p>
-          <p id="cleaningFeeDisplay"></p>
-          <p id="appFeeDisplay"></p>
-          <p id="taxDisplay"></p>
-          <p id="totalDisplay"></p>
+          <table style="max-width:300px;margin-left:auto;margin-right:auto;text-align:center;">
+            <tr>
+              <td style="text-align: left;" >Room name</td>
+              <td id="roomNameDisplay" style="text-align: right;"></td>
+            </tr>
+            <tr>
+              <td style="text-align: left;">Dates requested</td>
+              <td id="dateRangeDisplay" style="text-align: right;"></td>
+            </tr>
+            <tr>
+              <td style="text-align: left;">Number of nights</td>
+              <td id="quantityNightsDisplay" style="text-align: right;"></td>
+            </tr>
+            <tr>
+              <td style="text-align: left;">Price per night</td>
+              <td id="roomPriceDisplay" style="text-align: right;"></td>
+            </tr>
+            <tr>
+              <td style="text-align: left;">Room x nights</td>
+              <td id="roomTotalDisplay" style="text-align: right;"></td>
+            </tr>
+            <tr>
+              <td style="text-align: left;">Cleaning fee</td>
+              <td id="cleaningFeeDisplay" style="text-align: right;"></td>
+            </tr>
+            <tr>
+              <td style="text-align: left;">Online booking fee</td>
+              <td id="appFeeDisplay" style="text-align: right;"></td>
+            </tr>
+            <tr>
+              <td style="text-align: left;">State rental tax</td>
+              <td id="taxDisplay" style="text-align: right;"></td>
+            </tr>
+            <tr>
+              <td style="text-align: left;">Deposit</td>
+              <td id="depositDisplay" style="text-align: right;"></td>
+            </tr>
+            <tr>
+              <td style="text-align: left;">Total</td>
+              <td id="totalDisplay" style="text-align: right;"></td>
+            </tr>
+          </table>
           <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" type="submit">Book Now</button>
         </div>
 
@@ -123,12 +156,14 @@
       var requestedMinDays = 2;
       var requestedNumNights = 0;
       var requestedRoomPrice = 0;
+      var requestedRoomDeposit = 0;
       var requestedRoomTax = 0;
       var requestedRoomTotal = 0;
       var requestedRoomCleaningFee = 0;
       var taxPercent = 0;
       var taxTotal = 0;
-      var appFeePercent = 0.05;
+      // change app fee % to 0.05 for transfers, 0.02 for direct
+      var appFeePercent = 0.02;
       var appFeeTotal = 0;
       var totalRequestPrice = 0;
       var calendar2Book = "";
@@ -183,31 +218,34 @@
         if (n == 3) {
           document
             .getElementById("roomNameDisplay")
-            .innerText = "Room name: " + requestedRoomName;
+            .innerText = requestedRoomName;
           document
             .getElementById("roomPriceDisplay")
-            .innerText = "$" + requestedRoomPrice / 100 + " per night";
+            .innerText = "$" + requestedRoomPrice.toFixed(0) / 100;
           document
             .getElementById("roomTotalDisplay")
-            .innerText = "Room x Nights = $" + requestedRoomTotal / 100;
+            .innerText = "$" + requestedRoomTotal.toFixed(0) / 100;
           document
             .getElementById("dateRangeDisplay")
-            .innerText = "Dates requested: " + requestedRange;
+            .innerText = requestedRange;
           document
             .getElementById("quantityNightsDisplay")
-            .innerText = "Number of Nights: " + requestedNumNights;
+            .innerText = requestedNumNights;
           document
             .getElementById("cleaningFeeDisplay")
-            .innerText = "Cleaning fee: $" + requestedRoomCleaningFee / 100;
+            .innerText = "$" + requestedRoomCleaningFee.toFixed(0) / 100;
           document
             .getElementById("appFeeDisplay")
-            .innerText = "Online booking fee: $" + appFeeTotal / 100;
+            .innerText = "$" + appFeeTotal.toFixed(0) / 100;
           document
             .getElementById("taxDisplay")
-            .innerText = "Rental tax: $" + taxTotal / 100;
+            .innerText = "$" + taxTotal.toFixed(0) / 100;
+          document
+            .getElementById("depositDisplay")
+            .innerText = "$" + requestedRoomDeposit.toFixed(0) / 100;
           document
             .getElementById("totalDisplay")
-            .innerText = "Total: $" + totalRequestPrice / 100;
+            .innerText = "$" + totalRequestPrice.toFixed(0) / 100;
         }
         if (n == (x.length - 1)) {
           document
@@ -279,7 +317,7 @@
         taxPercent = roomTax / 100;
         taxTotal = (requestedRoomTotal + requestedRoomCleaningFee) * taxPercent;
         appFeeTotal = (requestedRoomTotal + requestedRoomCleaningFee) * appFeePercent;
-        totalRequestPrice = requestedRoomTotal + requestedRoomCleaningFee + taxTotal + appFeeTotal;
+        totalRequestPrice = requestedRoomTotal + requestedRoomCleaningFee + taxTotal + appFeeTotal + requestedRoomDeposit;
       }
 
       function fixStepIndicator(n) {
@@ -432,8 +470,7 @@
         });
       }
 
-      function handleSelect(sku, name, price, minNight, cleanFee, availability, tax, calendarOut) {
-
+      function handleSelect(sku, name, price, minNight, cleanFee, availability, tax, deposit) {
         selectedSku = sku;
         requestedRoomName = name;
         requestedRoomPrice = parseInt(price);
@@ -442,7 +479,7 @@
         requestedMinDays = parseInt(minNight) + 1;
         selectedAvailability = availability;
         requestedRoomTax = parseInt(tax);
-        calendar2Book = calendarOut;
+        requestedRoomDeposit = parseInt(deposit);
         document
           .getElementById("sku")
           .value = sku;
@@ -469,8 +506,7 @@
             nights: requestedNumNights,
             dates: requestedRange,
             checkin: requestedCheckIn,
-            checkout: requestedCheckOut,
-            calendar: calendar2Book
+            checkout: requestedCheckOut
           };
           const response = await fetch('/.netlify/functions/create-checkout', {
             method: 'POST',
@@ -508,14 +544,14 @@
                 let product = res[i];
                 let productAvailability = [];
                 let JSONavailability = "";
-                fetchBookedDates(product.calendar).then(function (fetchBookedDatesRes) {
+                fetchBookedDates(product.calendarIn).then(function (fetchBookedDatesRes) {
                   unAvailArr = fetchBookedDatesRes.gcal.response.items;
                   unAvailArr.forEach(function (event) {
                     let eventStartEndArr = [event.start.date, event.end.date]
                     productAvailability.push(eventStartEndArr);
                   });
                   JSONavailability = JSON.stringify(productAvailability);
-                  cardElement.setAttribute("onClick", 'javascript: handleSelect("' + product.sku + '","' + product.name + '","' + product.amount + '","' + product.min_night + '","' + product.clean_fee + '",' + JSONavailability + ',"' + product.tax + '","' + product.calendarOut + '");');
+                  cardElement.setAttribute("onClick", 'javascript: handleSelect("' + product.sku + '","' + product.name + '","' + product.amount + '","' + product.min_night + '","' + product.clean_fee + '",' + JSONavailability + ',"' + product.tax + '","' + product.deposit + '");');
                   cardElement.setAttribute("id", product.sku);
                   next()
                 }, function (error) {

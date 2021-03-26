@@ -28,7 +28,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
 const inventory = require('./data/products.json');
 
 exports.handler = async (event) => {
-  const { sku, nights, dates, checkin, checkout, calendar } = JSON.parse(event.body);
+  const { sku, nights, dates, checkin, checkout } = JSON.parse(event.body);
   const product = inventory.find((p) => p.sku === sku);
   const validatedQuantity = 1;
   // change app fee % to 0.05 for transfers, 0.02 for direct
@@ -38,7 +38,7 @@ exports.handler = async (event) => {
   const taxPercent = product.tax/100;
   const taxTotal = (roomTotal + product.clean_fee) * taxPercent;
   const appFeeTotal = (roomTotal + product.clean_fee) * appFeePercent;
-  const totalRequestPrice = roomTotal + product.clean_fee + taxTotal + appFeeTotal;
+  const totalRequestPrice = roomTotal + product.clean_fee + taxTotal + appFeeTotal + product.deposit;
 
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
@@ -74,10 +74,11 @@ exports.handler = async (event) => {
           tax_total: taxTotal,
           app_fee_total: appFeeTotal,
           unit_amount: totalRequestPrice,
+          deposit: product.deposit,
           dates: dates,
           checkin: checkin,
           checkout: checkout,
-          calendar: calendar
+          calendar: product.calendarOut
     }
   },
   // comment out below 3 lines for transfer charge 
