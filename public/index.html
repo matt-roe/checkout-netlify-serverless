@@ -28,7 +28,7 @@
 
       <form id="bookWizForm" class="bookWiz">
         <!-- One "tab" for each step in the form: -->
-        <div class="tab swiper-container" >Select a room:
+        <div class="tab swiper-container">Select a room:
           <div class="products swiper-wrapper"></div>
           <div class="swiper-pagination"></div>
           <input type="hidden" id="sku" name="sku" value="">
@@ -160,36 +160,36 @@
           loadLitePicker(requestedMinDays, selectedAvailability);
         }
         if (n == 2) {
-          calculateTotal(requestedRoomPrice,requestedNumNights,requestedRoomTax);
+          calculateTotal(requestedRoomPrice, requestedNumNights, requestedRoomTax);
         }
         if (n == 3) {
           document
             .getElementById("roomNameDisplay")
-            .innerText = "Room name: "+requestedRoomName;
+            .innerText = "Room name: " + requestedRoomName;
           document
             .getElementById("roomPriceDisplay")
-            .innerText = "$"+requestedRoomPrice/100+" per night";
+            .innerText = "$" + requestedRoomPrice / 100 + " per night";
           document
             .getElementById("roomTotalDisplay")
-            .innerText = "Room x Nights = $"+requestedRoomTotal/100;
-            document
+            .innerText = "Room x Nights = $" + requestedRoomTotal / 100;
+          document
             .getElementById("dateRangeDisplay")
-            .innerText = "Dates requested: "+requestedRange;
+            .innerText = "Dates requested: " + requestedRange;
           document
             .getElementById("quantityNightsDisplay")
-            .innerText = "Number of Nights: "+requestedNumNights;
+            .innerText = "Number of Nights: " + requestedNumNights;
           document
             .getElementById("cleaningFeeDisplay")
-            .innerText = "Cleaning fee: $"+requestedRoomCleaningFee/100;
+            .innerText = "Cleaning fee: $" + requestedRoomCleaningFee / 100;
           document
             .getElementById("appFeeDisplay")
-            .innerText = "Online booking fee: $"+appFeeTotal/100;
+            .innerText = "Online booking fee: $" + appFeeTotal / 100;
           document
             .getElementById("taxDisplay")
-            .innerText = "Rental tax: $"+taxTotal/100;
+            .innerText = "Rental tax: $" + taxTotal / 100;
           document
             .getElementById("totalDisplay")
-            .innerText = "Total: $"+totalRequestPrice/100;
+            .innerText = "Total: $" + totalRequestPrice / 100;
         }
         if (n == (x.length - 1)) {
           document
@@ -256,9 +256,9 @@
         return valid; // return the valid status
       }
 
-      function calculateTotal(roomCost,roomNights,roomTax) {
+      function calculateTotal(roomCost, roomNights, roomTax) {
         requestedRoomTotal = roomCost * roomNights;
-        taxPercent = roomTax/100;
+        taxPercent = roomTax / 100;
         taxTotal = (requestedRoomTotal + requestedRoomCleaningFee) * taxPercent;
         appFeeTotal = (requestedRoomTotal + requestedRoomCleaningFee) * appFeePercent;
         totalRequestPrice = requestedRoomTotal + requestedRoomCleaningFee + taxTotal + appFeeTotal;
@@ -397,26 +397,27 @@
           .format((amount / 100).toFixed(2));
       }
 
-      function loadSwiper() {var swiper = new Swiper('.swiper-container', {
-      effect: 'coverflow',
-      grabCursor: true,
-      centeredSlides: true,
-      slidesPerView: 'auto',
-      coverflowEffect: {
-        rotate: 10,
-        stretch: 0,
-        depth: 20,
-        modifier: 2,
-        slideShadows: false,
-      },
-      freeMode: true,
-      centeredSlides: true,
-      grabCursor: true,
-      });
+      function loadSwiper() {
+        var swiper = new Swiper('.swiper-container', {
+          effect: 'coverflow',
+          grabCursor: true,
+          centeredSlides: true,
+          slidesPerView: 'auto',
+          coverflowEffect: {
+            rotate: 10,
+            stretch: 0,
+            depth: 20,
+            modifier: 2,
+            slideShadows: false
+          },
+          freeMode: true,
+          centeredSlides: true,
+          grabCursor: true
+        });
       }
-      
+
       function handleSelect(sku, name, price, minNight, cleanFee, availability, tax, calendarOut) {
-        
+
         selectedSku = sku;
         requestedRoomName = name;
         requestedRoomPrice = parseInt(price);
@@ -427,16 +428,17 @@
         requestedRoomTax = parseInt(tax);
         calendar2Book = calendarOut;
         document
-            .getElementById("sku")
-            .value = sku;
+          .getElementById("sku")
+          .value = sku;
         var x = document.getElementsByClassName("product");
-            var i;
-            for (i = 0; i < x.length; i++) {
-            x[i].style.backgroundColor = "";
+        var i;
+        for (i = 0; i < x.length; i++) {
+          x[i].style.backgroundColor = "";
         }
         document
-            .getElementById(sku)
-            .style.backgroundColor = 'rgb(100,255,218,0.3)';
+          .getElementById(sku)
+          .style
+          .backgroundColor = 'rgb(100,255,218,0.3)';
       };
 
       async function handleSubmit(event) {
@@ -490,20 +492,19 @@
                 let product = res[i];
                 let productAvailability = [];
                 let JSONavailability = "";
-                fetchBookedDates(product.calendar)
-                  .then(function (fetchBookedDatesRes) {
-                    unAvailArr = fetchBookedDatesRes.gcal.response.items;
-                    unAvailArr.forEach(function (event) {
-                      let eventStartEndArr = [event.start.date, event.end.date]
-                      productAvailability.push(eventStartEndArr);
-                    });
-                    JSONavailability = JSON.stringify(productAvailability);
-                    cardElement.setAttribute("onClick", 'javascript: handleSelect("' + product.sku + '","' + product.name + '","' + product.amount + '","' + product.min_night + '","' + product.clean_fee + '",' + JSONavailability + ',"' + product.tax + '","' + product.calendarOut + '");');
-                    cardElement.setAttribute("id", product.sku);
-                    next()
-                  }, function (error) {
-                    console.log(error)
+                fetchBookedDates(product.calendar).then(function (fetchBookedDatesRes) {
+                  unAvailArr = fetchBookedDatesRes.gcal.response.items;
+                  unAvailArr.forEach(function (event) {
+                    let eventStartEndArr = [event.start.date, event.end.date]
+                    productAvailability.push(eventStartEndArr);
                   });
+                  JSONavailability = JSON.stringify(productAvailability);
+                  cardElement.setAttribute("onClick", 'javascript: handleSelect("' + product.sku + '","' + product.name + '","' + product.amount + '","' + product.min_night + '","' + product.clean_fee + '",' + JSONavailability + ',"' + product.tax + '","' + product.calendarOut + '");');
+                  cardElement.setAttribute("id", product.sku);
+                  next()
+                }, function (error) {
+                  console.log(error)
+                });
 
                 container
                   .querySelector('.mdl-card__title-text')
@@ -511,7 +512,7 @@
 
                 titleElement = container.querySelector('.mdl-card__title');
                 titleElement.style.background = "url(" + product.image + ") center center no-repeat";
-                titleElement.style.backgroundSize="contain"
+                titleElement.style.backgroundSize = "contain"
 
                 container
                   .querySelector('.description')
@@ -530,8 +531,8 @@
               })
             }
 
-          }
-          ).catch((err) => console.error(err));
+          })
+          .catch((err) => console.error(err));
       };
     </script>
   </body>
