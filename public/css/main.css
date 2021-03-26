@@ -31,10 +31,6 @@ footer a {
   color: inherit;
 }
 
-.product {
-  background-size: contain;
-}
-
 .products {
   display: grid;
   gap: 1rem;
