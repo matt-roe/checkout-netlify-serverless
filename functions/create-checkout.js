@@ -34,7 +34,8 @@ exports.handler = async (event) => {
   const { sku, nights, dates, checkin, checkout, calendar } = JSON.parse(event.body);
   const product = inventory.find((p) => p.sku === sku);
   const validatedQuantity = 1;
-  const appFeePercent = 0.05;
+  // change app fee % to 0.05 for transfers, 0.02 for direct
+  const appFeePercent = 0.02;
 
   const roomTotal = (parseInt(product.amount) * parseInt(nights));
   const taxPercent = product.tax/100;
