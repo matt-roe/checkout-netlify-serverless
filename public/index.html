@@ -3,14 +3,16 @@
 
   <head>
     <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
     <title>Breezy Book - Old Sheep Ranch Inn</title>
     <link rel="stylesheet" href="css/main.css"/>
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-teal.min.css"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
     <script src="https://js.stripe.com/v3/"></script>
     <script src="https://cdn.jsdelivr.net/npm/litepicker@2.0.11/dist/litepicker.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/litepicker@2.0.11/dist/plugins/mobilefriendly.js"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
   </head>
 
   <body>
@@ -24,10 +26,12 @@
         <a href="https://stripe.com/docs/testing#cards">test card numbers</a>.
       </p>
 
-      <form id="bookWizForm" style="text-align:center;margin-left:auto;margin-right:auto;width:100%;">
+      <form id="bookWizForm" class="bookWiz">
         <!-- One "tab" for each step in the form: -->
-        <div class="tab">Select a room:
-          <section class="products"></section>
+        <div class="tab swiper-container" >Select a room:
+          <div class="products swiper-wrapper"></div>
+          <div class="swiper-pagination"></div>
+          <input type="hidden" id="sku" name="sku" value="">
         </div>
 
         <div class="tab">Select dates of stay:
@@ -57,7 +61,7 @@
         </div>
 
         <!-- Circles which indicates the steps of the form: -->
-        <div style="padding-top:30px;text-align:center;margin-left:auto;margin-right:auto;width:100%;">
+        <div class="steps">
           <span style="float:left;width:30%;">
             <button type="button" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored mdl-js-ripple-effect" id="prevBtn" onclick="nextPrev(-1)">
               <i class="material-icons">arrow_back</i>
@@ -93,7 +97,7 @@
     </footer>
 
     <template id="product">
-      <button onclick="" type="button" class="product demo-card-square mdl-card mdl-shadow--3dp mdl-button mdl-js-button mdl-js-ripple-effect">
+      <button onclick="" type="button" class="product swiper-slide demo-card-square mdl-card mdl-shadow--3dp mdl-button mdl-js-button mdl-js-ripple-effect">
         <h2 class="mdl-card__title-text">Update</h2>
         <div class="mdl-card__title mdl-card--expand"></div>
         <div class="description mdl-card__supporting-text">
@@ -393,8 +397,25 @@
           .format((amount / 100).toFixed(2));
       }
 
+      function loadSwiper() {var swiper = new Swiper('.swiper-container', {
+      effect: 'coverflow',
+      grabCursor: true,
+      centeredSlides: true,
+      slidesPerView: 'auto',
+      coverflowEffect: {
+        rotate: 50,
+        stretch: 0,
+        depth: 100,
+        modifier: 1,
+        slideShadows: true,
+      },
+      freeMode: true,
+      centeredSlides: true,
+      grabCursor: true,
+      });
+    }
       function handleSelect(sku, name, price, minNight, cleanFee, availability, tax, calendarOut) {
-        console.log(availability);
+        
         selectedSku = sku;
         requestedRoomName = name;
         requestedRoomPrice = parseInt(price);
@@ -404,6 +425,17 @@
         selectedAvailability = availability;
         requestedRoomTax = parseInt(tax);
         calendar2Book = calendarOut;
+        document
+            .getElementById("sku")
+            .value = sku;
+        var x = document.getElementsByClassName("product");
+            var i;
+            for (i = 0; i < x.length; i++) {
+            x[i].style.backgroundColor = "";
+        }
+        document
+            .getElementById(sku)
+            .style.backgroundColor = 'rgb(100,255,218,0.5)';
       };
 
       async function handleSubmit(event) {
@@ -448,7 +480,6 @@
         const data = await fetch('/.netlify/functions/get-products')
           .then((res) => res.json())
           .then(async function foo(res) {
-            console.log(res);
             for (var i = 0; i < res.length; i++) {
               await new Promise(next => {
                 const container = template
@@ -467,6 +498,7 @@
                     });
                     JSONavailability = JSON.stringify(productAvailability);
                     cardElement.setAttribute("onClick", 'javascript: handleSelect("' + product.sku + '","' + product.name + '","' + product.amount + '","' + product.min_night + '","' + product.clean_fee + '",' + JSONavailability + ',"' + product.tax + '","' + product.calendarOut + '");');
+                    cardElement.setAttribute("id", product.sku);
                     next()
                   }, function (error) {
                     console.log(error)
@@ -493,11 +525,12 @@
                   .setAttribute("href", product.more_info);
 
                 products.appendChild(container);
+                loadSwiper();
               })
             }
 
-          })
-          .catch((err) => console.error(err));
+          }
+          ).catch((err) => console.error(err));
       };
     </script>
   </body>
