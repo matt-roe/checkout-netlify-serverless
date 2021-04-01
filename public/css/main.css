@@ -114,19 +114,31 @@ input.invalid {
   width: 100%;
 }
 
+
 .swiper-container {
-  width: 100%;
+  width: 80%;
   height: 100%;
   padding: 0.5rem;
   margin: 0.5rem;
 }
 
+.swiper-container {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  background-position: center;
+  background-size: cover;
+}
+
+/*
 .swiper-slide {
   text-align: center;
   font-size: 18px;
   background: #fff;
 
-  /* Center slide text vertically */
+  /* Center slide text vertically
   display: -webkit-box;
   display: -ms-flexbox;
   display: -webkit-flex;
@@ -140,3 +152,4 @@ input.invalid {
   -webkit-align-items: center;
   align-items: center;
 }
+*/
