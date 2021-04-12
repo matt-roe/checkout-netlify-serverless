@@ -27,8 +27,8 @@
 
       <form id="bookWizForm" class="bookWiz">
         <!-- One "tab" for each step in the form: -->
-        <div class="tab swiper-container swiper1">Select a room:
-          <div class="products swiper-wrapper"></div>
+        <div class="tab swiper-container swiper-container1 swiper1">Select a room:
+          <div class="products swiper-wrapper swiper-wrapper1"></div>
           <div class="swiper-pagination"></div>
           <input type="hidden" id="sku" name="sku" value="">
         </div>
@@ -126,11 +126,11 @@
     </footer>
 
     <template id="product">
-      <button onclick="" type="button" class="product swiper-slide demo-card-square mdl-card mdl-shadow--3dp mdl-button mdl-js-button mdl-js-ripple-effect">
-        <div class="swiper2 swiper-container">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide">
-            <h2 class="mdl-card__title-text">Update</h2>
+      <button onclick="" type="button" class="product swiper-slide swiper-slide1 demo-card-square mdl-card mdl-shadow--3dp mdl-button mdl-js-button mdl-js-ripple-effect">
+        <div class="swiper2 swiper-container2 swiper-container">
+        <div class="swiper-wrapper swiper-wrapper2">
+          <div class="swiper-slide2 swiper-slide slide-front">
+            <div class="mdl-card__title-text"><h2>Update</h2></div>
             <div class="mdl-card__title mdl-card--expand"></div>
             <div class="description mdl-card__supporting-text">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenan convallis.
@@ -145,7 +145,7 @@
               </a>
             </div>
           </div>
-          <div class="swiper-slide">
+          <div class="swiper-slide2 swiper-slide slide-back">
             <div class="clean">
               $0
             </div>
@@ -407,7 +407,6 @@
       };
 
       async function fetchRooms(rental) {
-        console.log(rental);
         const roomsRequestBody = {
           rental: rental
         };
@@ -429,16 +428,10 @@
         }
 
         var roomsArr = await roomsRes.json();
-        console.log(roomsArr.airtable.selectQueryResult.rows);
         return roomsArr.airtable.selectQueryResult.rows;
       };
 
-      fetchRooms().catch(error => {
-        error.message; // 'An error has occurred: 404'
-      });
-
       async function fetchBookedDates(calendarId) {
-        console.log(calendarId);
         const availRequestBody = {
           calId: calendarId
         };
@@ -460,13 +453,8 @@
         }
 
         var unAvailArr = await bookedDatesRes.json();
-        console.log(unAvailArr);
         return unAvailArr;
       };
-
-      fetchBookedDates().catch(error => {
-        error.message; // 'An error has occurred: 404'
-      });
 
       function dateToYMD(date) {
         var d = date.getDate();
@@ -509,22 +497,27 @@
         var swiper1 = new Swiper('.swiper1', {
           effect: 'coverflow',
           grabCursor: true,
-          centeredSlides: true,
+          slidesPerColumnFill: 'row',
           slidesPerView: 'auto',
+          containerModifierClass: 'swiper-container1',
+          wrapperClass: 'swiper-wrapper1',
+          slideClass: 'swiper-slide1',
           coverflowEffect: {
-            rotate: 10,
+            rotate: 30,
             stretch: 0,
-            depth: 20,
-            modifier: 2,
+            depth: 40,
+            modifier: 1,
             slideShadows: false
-          },
-          //freeMode: true,
-          centeredSlides: true,
-          grabCursor: true
+          }
         });
 
         var swiper2 = new Swiper('.swiper2', {
           effect: 'flip',
+          allowTouchMove: false,
+          slidesPerView: 1,
+          containerModifierClass: 'swiper-container2',
+          wrapperClass: 'swiper-wrapper2',
+          slideClass: 'swiper-slide2',
           navigation: {
             nextEl: '.swiper-button-back',
             prevEl: '.swiper-button-front',
@@ -542,9 +535,6 @@
         selectedAvailability = availability;
         requestedRoomTax = parseInt(tax);
         requestedRoomDeposit = parseInt(deposit);
-        document
-          .getElementById("sku")
-          .value = sku;
         var x = document.getElementsByClassName("product");
         var i;
         for (i = 0; i < x.length; i++) {
@@ -631,6 +621,12 @@
                 container
                   .querySelector('.description')
                   .innerText = product.fields.Description;
+                container
+                  .querySelector('.clean')
+                  .innerText = 'Cleaning fee: $' + product.fields.Clean / 100;
+                container
+                  .querySelector('.deposit')
+                  .innerText = 'Deposit: $' + product.fields.Deposit / 100;
 
                 actionsElement = container.querySelector('.mdl-card__actions');
                 actionsElement
